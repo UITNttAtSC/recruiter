@@ -25,6 +25,8 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}">
     
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <link rel="stylesheet" th:href="@{/css/animations.css}">
 </head>
 <body>
     <header class="header" th:fragment="common-header">
@@ -62,7 +64,7 @@
                         <div class="header_content d-flex flex-row align-items-center justify-content-start">
                             <div class="logo_container">
                                 <a href="index.html">
-                                    <img src="imags/logo.png" class="logo-text" alt="">
+                                    <img th:src="@{/imags/logo.png}" class="logo-text" alt="">
                                 </a>
                             </div>
                             <nav class="main_nav_contaner ml-auto">
@@ -210,13 +212,13 @@
                             </footer>
                             
                             <div th:fragment="common-script">
-                                <script data-cfasync="false" src="js/email-decode.min.js"></script>
-                                <script src="js/jquery.min.js"></script>
-                                <script src="js/bootstrap.min.js"></script>
-                                <script src="owlcarousel/owl.carousel.min.js"></script>
-                                <script src="js/jquery-ui.min.js"></script>
+                                <script data-cfasync="false" th:src="@{/js/email-decode.min.js}"></script>
+                                <script th:src="@{/js/jquery.min.js}"></script>
+                                <script th:src="@{/js/bootstrap.min.js}"></script>
+                                <script th:src="@{/owlcarousel/owl.carousel.min.js}"></script>
+                                <script th:src="@{/js/jquery-ui.min.js}"></script>
                                 
-                                <script src="js/custom.js"></script>
+                                <script th:src="@{/js/custom.js}"></script>
                                 <script>
                                     (function(e, t, n) {
                                         var r = e.querySelectorAll("html")[0];
