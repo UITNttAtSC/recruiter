@@ -40,7 +40,38 @@ public class JobPostController {
                                         add("Magway");
                                         add("Tanintharyi");
                                         add("Kayin");
-                                        add("Kaya");}};
+                                        add("Kaya");
+    }};
+
+    List<String> jobCategoriesList = new ArrayList<String>(){{
+                                        add("Administration, business and management");
+                                        add("Alternative therapies");
+                                        add("Animals, land and environment");
+                                        add("Computing and ICT");
+                                        add("Construction and building");
+                                        add("Design, arts and crafts");
+                                        add("Education and training");
+                                        add("Engineering");
+                                        add("Facilities and property services");
+                                        add("Financial services");
+                                        add("Garage services");
+                                        add("Hairdressing and beauty");
+                                        add("Healthcare");
+                                        add("Heritage, culture and libraries");
+                                        add("Hospitality, catering and tourism");
+                                        add("Languages");
+                                        add("Legal and court services");
+                                        add("Manufacturing and production");
+                                        add("Performing arts and media");
+                                        add("Print and publishing, marketing and advertising");
+                                        add("Retail and customer services");
+                                        add("Science, mathematics and statistics");
+                                        add("Security, uniformed and protective services");
+                                        add("Social sciences and religion");
+                                        add("Social work and caring services");
+                                        add("Sport and leisure");
+                                        add("Transport, distribution and logistics");
+    }};
         
     @RequestMapping("/postJob")
     private String postJob(Model model) {
@@ -48,6 +79,7 @@ public class JobPostController {
         JobPost post = new JobPost();
 
         model.addAttribute("jobLocationsList", jobLocationsList);
+        model.addAttribute("jobCategoriesList", jobCategoriesList);
 
         model.addAttribute("post", post);
 
@@ -83,6 +115,7 @@ public class JobPostController {
         JobPost post = postService.findById(postId);
 
         model.addAttribute("jobLocationsList", jobLocationsList);
+        model.addAttribute("jobCategoriesList", jobCategoriesList);
 
         model.addAttribute("post", post);
         return "post_job";
