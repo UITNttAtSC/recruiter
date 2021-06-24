@@ -27,6 +27,8 @@ public class JobPost {
 
     private String jobTitle;
 
+    private String jobCategory;
+
     private String jobLevel;
 
     private String jobType;
@@ -334,6 +336,20 @@ public class JobPost {
      */
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    /**
+     * @return String return the jobCategory
+     */
+    public String getJobCategory() {
+        return jobCategory;
+    }
+
+    /**
+     * @param jobCategory the jobCategory to set
+     */
+    public void setJobCategory(String jobCategory) {
+        this.jobCategory = jobCategory;
     }
 
 }
