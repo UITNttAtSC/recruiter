@@ -2,6 +2,7 @@ package com.recruiter.recruiter.service.impl;
 
 import com.recruiter.recruiter.domain.Company;
 import com.recruiter.recruiter.domain.JobPost;
+import com.recruiter.recruiter.domain.Payment;
 import com.recruiter.recruiter.repository.CompanyRepository;
 import com.recruiter.recruiter.repository.JobPostRepository;
 import com.recruiter.recruiter.service.CompanyService;
@@ -16,7 +17,7 @@ public class CompanyServiceImpl implements CompanyService {
     CompanyRepository companyRepository;
 
     @Autowired
-    JobPostRepository postRepository;
+    JobPostRepository jobPostRepository;
 
     @Override
     public Company save(Company company) {
@@ -24,10 +25,11 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public void updateJobPost(JobPost jobPost, Company company) {
+    public void updateJobPost(JobPost jobPost, Company company, Payment payment) {
         jobPost.setCompany(company);
+        jobPost.setPayment(payment);
         company.getPost().add(jobPost);
-        postRepository.save(jobPost);
+        jobPostRepository.save(jobPost);
         save(company);
     }
 
