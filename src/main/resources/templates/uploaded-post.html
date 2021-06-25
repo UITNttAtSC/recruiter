@@ -3,7 +3,9 @@
 
 <head th:replace="common/master :: header" />
 
-<body class="background-color-white">
+
+<body class="background-color-white" >
+
     
     <header th:replace="common/master :: common-header" />
     
@@ -27,7 +29,8 @@
                         <i class="fa fa-user text-primary" aria-hidden="true"></i>
                         <span class="text" th:text="${post.employeeLimit}"></span> applicant(s)
                         <br />
-                        <i class="fa fa-usd text-warning" aria-hidden="true"></i>
+                      <i class="fa fa-usd text-warning" aria-hidden="true"></i>
+                           
                         <span th:if="${post.minSalary gt 0 and post.maxSalary gt 0}">
                             $<span class="text font-size" th:text="${post.minSalary}"></span> ~
                             $<span class="text font-size" th:text="${post.maxSalary}"></span>
@@ -38,6 +41,8 @@
                         <div class="float-right margin-top text-align-center">
                             <a th:onclick="'deletePost(\'' + ${post.postId} + '\');'" class="btn btn-danger">Delete</a>
                             <a th:href="@{/updatePost/}+${post.postId}" class="btn btn-info">Update</a>
+                           <a th:href="@{/jobApply/}+${post.postId}" class="btn btn-info">Job Apply</a>
+                            <a th:href="@{/jobApplyUsers/}+${post.postId}" class="btn btn-info">View user</a>
                             <div>status: 
                                 <span th:if="${post.status}" class="text-success">Approved</span>
                                 <span th:if="!${post.status}" class="text-warning">Pending</span>
@@ -93,6 +98,14 @@
                 }
             })
         }
+
+        
+        function success(){
+        	$('#submit-btn').show();
+        	$('#loader').hide();
+            swal("Good Luck!", "Email successfully Sent!", "success");
+        }	
+
     </script>
     
 </body>

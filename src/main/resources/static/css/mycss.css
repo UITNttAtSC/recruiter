@@ -1,0 +1,47 @@
+#file {
+    border: 2px dashed #92b0b3 !important
+}
+
+.color input {
+    background-color: #f1f1f1
+}
+ 
+.fileupload{
+	width: 100%;
+} 
+ 
+.files:before {
+     position: absolute;
+	 bottom: 40px;
+	 right: 0;
+    left: 0;
+    width: 100%;
+    content: attr(data-before);
+    color: #000;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center
+}
+
+#file {
+    display: inline-block;
+    width: 100%;
+    padding: 80px 0 0 100%;
+    background: url('../imags/fileupload.png') top center no-repeat #fff;
+    content: attr(data-before);
+    background-position:50% 10%;
+    background-size: 30px 30px
+}
+
+.swal-modal {
+    background-color: white;
+    color: white;
+}
+.swal-text {
+    color: black;
+    font-size: 15px;
+}
+.swal-button {
+    background-color: #007BFF;
+    color: #ffffff;
+}
