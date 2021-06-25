@@ -72,6 +72,9 @@ public class JobPost {
     @ManyToOne
     private Company company;
 
+    @ManyToOne
+    private Payment payment;
+
     /**
      * @return Long return the postId
      */
@@ -350,6 +353,21 @@ public class JobPost {
      */
     public void setJobCategory(String jobCategory) {
         this.jobCategory = jobCategory;
+    }
+
+
+    /**
+     * @return Payment return the payment
+     */
+    public Payment getPayment() {
+        return payment;
+    }
+
+    /**
+     * @param payment the payment to set
+     */
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
 }

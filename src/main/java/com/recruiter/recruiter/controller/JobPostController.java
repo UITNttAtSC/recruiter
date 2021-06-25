@@ -6,8 +6,10 @@ import java.util.List;
 
 import com.recruiter.recruiter.domain.Company;
 import com.recruiter.recruiter.domain.JobPost;
+import com.recruiter.recruiter.domain.Payment;
 import com.recruiter.recruiter.service.CompanyService;
 import com.recruiter.recruiter.service.JobPostService;
+import com.recruiter.recruiter.service.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,9 @@ public class JobPostController {
 
     @Autowired
     CompanyService companyService;
+
+    @Autowired
+    PaymentService paymentService;
 
     List<String> jobLocationsList = new ArrayList<String>(){{
                                         add("Yangon");
@@ -90,12 +95,14 @@ public class JobPostController {
     private String addPost(@ModelAttribute("post") JobPost post, Principal principal) {
 
         Company company = new Company();
-        company.setCompanyId(2L);
-        company.setCompanyName("GIC");
+        company.setCompanyId(1L);
+        company.setCompanyName("gid");
 
         // Company company = companyService.findByCompanyName(principal.getName());
 
-        companyService.updateJobPost(post, company);
+        Payment payment = paymentService.findByCompany(company);
+
+        companyService.updateJobPost(post, company, payment);
         
         return "redirect:/viewPosts";
     }
@@ -103,7 +110,7 @@ public class JobPostController {
     @RequestMapping("/viewPosts")
     private String viewPosts(Model model, Principal principal){
 
-        Company company = companyService.findByCompanyName("GIC");
+        Company company = companyService.findByCompanyName("gid");
         // Company company = companyService.findByCompanyName(principal.getName());
         model.addAttribute("listOfPosts", company.getPost());
         model.addAttribute("noOfPosts", company.getPost().size());
