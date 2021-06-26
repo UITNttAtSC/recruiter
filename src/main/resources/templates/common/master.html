@@ -169,6 +169,41 @@
 			</nav>
 		</div>
 	</header>
+	<div class="detail" th:each="post : ${listOfPosts}" th:fragment="jobPost">
+		<input type="hidden" id="postId" th:value="${post.postId}">
+		<div class="media display-inline text-align-center">
+			<!-- <img src="imags/job-post-icone-1.png" alt="John Doe" class="mr-3 "> -->
+			<div class="media-body text-left  text-align-center">
+				<h6 th:text="${post.jobTitle}"></h6>
+				<i class="large material-icons text-success">account_balance</i>
+				<span class="text" th:text="${post.jobType}"></span>
+				<br />
+				<i class="fa fa-user text-primary" aria-hidden="true"></i>
+				<span class="text" th:text="${post.employeeLimit}"></span> applicant(s)
+				<br />
+			  <i class="fa fa-usd text-warning" aria-hidden="true"></i>
+				   
+				<span th:if="${post.minSalary gt 0 and post.maxSalary gt 0}">
+					$<span class="text font-size" th:text="${post.minSalary}"></span> ~
+					$<span class="text font-size" th:text="${post.maxSalary}"></span>
+				</span>
+				<span th:if="${post.minSalary == null and post.maxSalary == null}">
+					Negotiable
+				</span>
+				<div class="float-right margin-top text-align-center">
+					<a th:onclick="'deletePost(\'' + ${post.postId} + '\');'" class="btn btn-danger">Delete</a>
+					<a th:href="@{/updatePost/}+${post.postId}" class="btn btn-info">Update</a>
+				   <a th:href="@{/jobApply/}+${post.postId}" class="btn btn-info">Job Apply</a>
+					<a th:href="@{/jobApplyUsers/}+${post.postId}" class="btn btn-info">View user</a>
+					<div>status: 
+						<span th:if="${post.status}" class="text-success">Approved</span>
+						<span th:if="!${post.status}" class="text-warning">Pending</span>
+					</div> 
+					<p class="date-time">Deadline: <span th:text="${post.deadline}"></span></p>
+				</div>
+			</div>
+		</div>
+	</div>
 	<footer th:fragment="footer" id="footer" class="background-color-white">
 		<div class="container">
 			<div class="vertical-space-100"></div>

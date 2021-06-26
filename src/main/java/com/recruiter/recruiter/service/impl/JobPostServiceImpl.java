@@ -34,5 +34,15 @@ public class JobPostServiceImpl implements JobPostService{
     public void removeById(Long id) {
         postRepository.deleteById(id);
     }
+
+    @Override
+    public List<JobPost> findFirst5ByStatusOrderByUpdatedAtDesc(boolean status) {
+        return postRepository.findFirst5ByStatusOrderByUpdatedAtDesc(status);
+    }
+
+    @Override
+    public List<JobPost> findAllByStatusOrderByUpdatedAtDesc(boolean status) {
+        return postRepository.findAllByStatusOrderByUpdatedAtDesc(status);
+    }
     
 }
