@@ -7,6 +7,9 @@ import com.recruiter.recruiter.repository.JobPostRepository;
 import com.recruiter.recruiter.service.JobPostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,13 +39,14 @@ public class JobPostServiceImpl implements JobPostService{
     }
 
     @Override
-    public List<JobPost> findFirst5ByStatusOrderByUpdatedAtDesc(boolean status) {
-        return postRepository.findFirst5ByStatusOrderByUpdatedAtDesc(status);
+    public List<JobPost> findFirst5ByStatusOrderByUpdatedAt(boolean status) {
+        return postRepository.findFirst5ByStatusOrderByUpdatedAt(status);
     }
 
     @Override
-    public List<JobPost> findAllByStatusOrderByUpdatedAtDesc(boolean status) {
-        return postRepository.findAllByStatusOrderByUpdatedAtDesc(status);
+    public Page<JobPost> findAllByStatusOrderByUpdatedAt(Integer pageNo, Integer pageSize, boolean status) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        return postRepository.findAllByStatusOrderByUpdatedAt(status, paging);
     }
     
 }
