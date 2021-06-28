@@ -175,7 +175,7 @@
 			<!-- <img src="imags/job-post-icone-1.png" alt="John Doe" class="mr-3 "> -->
 			<div class="media-body text-left  text-align-center">
 				<h6 th:text="${post.jobTitle}"></h6>
-				<i class="large material-icons text-success">account_balance</i>
+				<i class="fa fa-clock-o" aria-hidden="true"></i>
 				<span class="text" th:text="${post.jobType}"></span>
 				<br />
 				<i class="fa fa-user text-primary" aria-hidden="true"></i>
@@ -193,7 +193,7 @@
 				<div class="float-right margin-top text-align-center">
 					<a th:onclick="'deletePost(\'' + ${post.postId} + '\');'" class="btn btn-danger">Delete</a>
 					<a th:href="@{/updatePost/}+${post.postId}" class="btn btn-info">Update</a>
-				   <a th:href="@{/jobApply/}+${post.postId}" class="btn btn-info">Job Apply</a>
+				   <a th:href="@{/jobPostDetails/}+${post.postId}" class="btn btn-info">View Details</a>
 					<a th:href="@{/jobApplyUsers/}+${post.postId}" class="btn btn-info">View user</a>
 					<div>status: 
 						<span th:if="${post.status}" class="text-success">Approved</span>

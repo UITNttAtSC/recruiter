@@ -51,10 +51,13 @@ public class JobPost {
 
     private String jobLocation;
 
+    @Column(columnDefinition = "text")
     private String jobDescription;
 
+    @Column(columnDefinition = "text")
     private String jobRequirement;
 
+    @Column(columnDefinition = "text")
     private String jobBenefit;
 
     @Temporal(TemporalType.TIMESTAMP)
