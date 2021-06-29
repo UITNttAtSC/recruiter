@@ -3,8 +3,10 @@ package com.recruiter.recruiter.service.impl;
 import com.recruiter.recruiter.domain.Company;
 import com.recruiter.recruiter.domain.JobPost;
 import com.recruiter.recruiter.domain.Payment;
+import com.recruiter.recruiter.domain.User;
 import com.recruiter.recruiter.repository.CompanyRepository;
 import com.recruiter.recruiter.repository.JobPostRepository;
+import com.recruiter.recruiter.repository.UserRepository;
 import com.recruiter.recruiter.service.CompanyService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,13 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     JobPostRepository jobPostRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Override
-    public Company save(Company company) {
+    public Company save(User user, Company company) {
+        company.setUser(user);
+        userRepository.save(user);
         return companyRepository.save(company);
     }
 
@@ -30,12 +37,17 @@ public class CompanyServiceImpl implements CompanyService {
         jobPost.setPayment(payment);
         company.getPost().add(jobPost);
         jobPostRepository.save(jobPost);
-        save(company);
+        // save(company);
     }
 
     @Override
     public Company findByCompanyName(String companyName) {
         return companyRepository.findByCompanyName(companyName);
+    }
+
+    @Override
+    public Company findByUser_Id(Long userId) {
+        return companyRepository.findByUser_Id(userId);
     }
     
 }
