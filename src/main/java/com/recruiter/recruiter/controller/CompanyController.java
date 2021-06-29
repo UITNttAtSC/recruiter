@@ -8,6 +8,7 @@ import java.security.Principal;
 import java.util.List;
 
 import com.recruiter.recruiter.domain.Company;
+import com.recruiter.recruiter.domain.Payment;
 import com.recruiter.recruiter.domain.User;
 import com.recruiter.recruiter.service.CompanyService;
 import com.recruiter.recruiter.service.UserService;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class CompanyController {
@@ -88,4 +92,12 @@ public class CompanyController {
         companyService.save(user, company);
         return "index";
     }
+
+    @RequestMapping("/payment")
+    public String payment(Model model) {
+        Payment payment = new Payment();
+        model.addAttribute("payment",payment);
+        return "company_payment";
+    }
+    
 }
