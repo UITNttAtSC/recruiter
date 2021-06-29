@@ -45,7 +45,7 @@ public class MailConstructor {
 			@Override
 			public void prepare(MimeMessage mimeMessage) throws Exception {
 				MimeMessageHelper email = new MimeMessageHelper(mimeMessage, true);
-				email.setTo(jobApply.getJobPost().getCompany().getCompanyEmail());
+				email.setTo(jobApply.getJobPost().getCompany().getUser().getEmail());
 				email.setSubject(jobApply.getEmailSubject());
 				email.setText(text, true);
 				email.setFrom(new InternetAddress(env.getProperty("support.email")));
@@ -67,7 +67,7 @@ public class MailConstructor {
 	public MimeMessagePreparator interviewInvitationEmail(Locale locale,String userDeatilLink,ReplyEmail replyEmail,User user,JobPost post) {
 		Context context = new Context();
 		context.setVariable("companyName", post.getCompany().getCompanyName());
-		context.setVariable("companyEmail", post.getCompany().getCompanyEmail());
+		context.setVariable("companyEmail", post.getCompany().getUser().getEmail());
 		context.setVariable("companyPhone", post.getCompany().getCompanyPhone());
 		context.setVariable("companyAddress", post.getCompany().getCompanyAddress());
 		context.setVariable("userName", user.getUsername());

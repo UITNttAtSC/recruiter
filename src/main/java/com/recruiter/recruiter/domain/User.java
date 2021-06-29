@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,8 +24,9 @@ public class User{
 	private Long id;
 	private String username;
 	private String password;
-	private String firstname;
-	private String lastname;
+
+	@OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
+	private Company company;
 	
 	@Column(name = "email",nullable = false,updatable = false)
 	private String email;
@@ -71,22 +73,6 @@ public class User{
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
 	}
 
 	public String getEmail() {
