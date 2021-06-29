@@ -21,7 +21,7 @@
             <div th:replace="common/master :: jobPost" />
             
             <div class="vertical-space-20"></div>
-            <div class="job-list">
+            <div class="job-list" th:if="${totalPages==0}">
                 <!-- <a href="#" class="Open-Jobs-Page margin-auto">Open Jobs Page<i class="large material-icons float-right">trending_flat</i></a> -->
                 <ul class="pagination justify-content-end margin-auto">
                     <li class="page-item" th:if="${hasPrevious}"><a class="page-link pdding-none" th:href="@{/allJobs?pageNo=}+${currentPage-1}"><i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_left</i></a></li>
