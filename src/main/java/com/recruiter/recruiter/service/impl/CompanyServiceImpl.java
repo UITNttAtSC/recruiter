@@ -51,7 +51,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company findByUser_Id(Long userId) {
-        return companyRepository.findByUser(user);
+        return companyRepository.findByUser_Id(Long userId);
     }
 
     
