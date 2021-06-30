@@ -7,9 +7,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import javax.persistence.OneToOne;
@@ -26,9 +28,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "companyId", nullable = false, updatable = false)
     private Long companyId;
-    
     private String companyName;
-    
     private String companyPhone;
     private String companyWebsite;
     private String companyType;
@@ -49,9 +49,11 @@ public class Company {
     @Column(columnDefinition = "text")
     private String companyVision;
     
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
 
+	@OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
+	@JoinColumn(nullable = false,name = "user_id")
+	private User user;
+    
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<JobPost> post = new ArrayList<JobPost>();
@@ -59,37 +61,23 @@ public class Company {
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "company")
     private Payment payment;
     
-    /**
-    * @return Long return the companyId
-    */
-    public Long getCompanyId() {
+    
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Long getCompanyId() {
         return companyId;
     }
     
-    /**
-    * @param companyId the companyId to set
-    */
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
-    
-    /**
-    * @return String return the companyName
-    */
-    public String getCompanyName() {
-        return companyName;
-    }
-    
-    /**
-    * @param companyName the companyName to set
-    */
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-    
-    /**
-    * @return List<JobPost> return the post
-    */
+
     public List<JobPost> getPost() {
         return post;
     }
@@ -226,25 +214,6 @@ public class Company {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
-
-    /**
-     * @return User return the user
-     */
-    public User getUser() {
-        return user;
-    }
-
-    /**
-     * @param user the user to set
-     */
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
-    /**
-     * @return List<MultipartFile> return the companyFeaturePhotos
-     */
     public List<MultipartFile> getCompanyFeaturePhotos() {
         return companyFeaturePhotos;
     }
@@ -254,6 +223,20 @@ public class Company {
      */
     public void setCompanyFeaturePhotos(List<MultipartFile> companyFeaturePhotos) {
         this.companyFeaturePhotos = companyFeaturePhotos;
+    }
+	
+    /**
+    * @return String return the companyName
+    */
+    public String getCompanyName() {
+        return companyName;
+    }
+    
+    /**
+    * @param companyName the companyName to set
+    */
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
 }

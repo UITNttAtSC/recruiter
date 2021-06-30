@@ -25,10 +25,11 @@ public class CompanyServiceImpl implements CompanyService {
     UserRepository userRepository;
 
     @Override
-    public Company save(User user, Company company) {
+    public void save(User user, Company company) {
         company.setUser(user);
+        user.setCompany(company);
+        // companyRepository.save(company);
         userRepository.save(user);
-        return companyRepository.save(company);
     }
 
     @Override
@@ -40,6 +41,10 @@ public class CompanyServiceImpl implements CompanyService {
         // save(company);
     }
 
+	@Override
+	public Company findByUser(User user) {
+		return companyRepository.findByUser(user);
+	}
     @Override
     public Company findByCompanyName(String companyName) {
         return companyRepository.findByCompanyName(companyName);
@@ -47,7 +52,8 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company findByUser_Id(Long userId) {
-        return companyRepository.findByUser_Id(userId);
+        return companyRepository.findByUser_userId(Long userId);
     }
+
     
 }

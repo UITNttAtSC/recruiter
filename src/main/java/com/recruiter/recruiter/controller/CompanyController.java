@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 
@@ -25,14 +26,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
+@RequestMapping("/companyInfo") 
 public class CompanyController {
-
+   
     @Autowired
-    CompanyService companyService;
-
+    private CompanyService companyService;
+  
+  
     @Autowired
     UserService userService;
-    
+     
     @RequestMapping("/newCompany")
     private String createCompanyProfile(Model model, Principal principal){
         // User user = userService.findByUsername(principal.getName());
@@ -40,6 +43,7 @@ public class CompanyController {
         Company company=new Company();
         model.addAttribute("company", company);
         model.addAttribute("user", user);
+        model.addAttribute("action", "create");
         return "company_register";
     }
 
@@ -47,15 +51,18 @@ public class CompanyController {
     private String companyAccount(Model model, Principal principal){
         // User user = userService.findByUsername(principal.getName());
         User user = userService.findByUsername("gid");
-        Company company = companyService.findByUser_Id(user.getId());
+        Company company = companyService.findByUser_Id(user.getUserId());
         model.addAttribute("company", company);
         model.addAttribute("user", user);
+        model.addAttribute("action", "update");
         return "company_register";
     }
     
     @PostMapping("/newCompany")
     public String newCompanyPost(@ModelAttribute("company") Company company,
+    @ModelAttribute("user") User currentUser,
     @ModelAttribute("password") String password,
+    @ModelAttribute("action") String action,
     @ModelAttribute("companyLogo") MultipartFile companyLogo,
     @ModelAttribute("companyFeaturePhotos") List<MultipartFile> companyFeaturePhotos,
     Model model)
@@ -81,15 +88,26 @@ public class CompanyController {
         }
         stream.close();
         
-        if (companyService.findByCompanyName(company.getCompanyName()) != null) {
+        if (companyService.findByCompanyName(company.getCompanyName()) != null && action.equals("create")) {
             model.addAttribute("companyNameExists", true);
             
             return "company_register";
         }
         
-        User user = userService.findByUsername("gid");
+        User user = userService.findByEmail(currentUser.getEmail());
         user.setPassword(password);
-        companyService.save(user, company);
+
+        Company currentCompany = companyService.findByUser_Id(user.getId());
+        currentCompany.setCompanyName(company.getCompanyName());
+        currentCompany.setCompanyPhone(company.getCompanyPhone());
+        currentCompany.setCompanyWebsite(company.getCompanyWebsite());
+        currentCompany.setCompanyType(company.getCompanyType());
+        currentCompany.setNoOfEmployee(company.getNoOfEmployee());
+        currentCompany.setCompanyAddress(company.getCompanyAddress());
+        currentCompany.setCompanyMission(company.getCompanyMission());
+        currentCompany.setCompanyVision(company.getCompanyVision());
+        // user.setPassword(SecurityUtility.passwordEncoder().encode(password));
+        companyService.save(user, currentCompany);
         return "index";
     }
     
