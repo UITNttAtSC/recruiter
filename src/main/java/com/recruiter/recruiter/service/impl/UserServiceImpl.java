@@ -1,6 +1,5 @@
 package com.recruiter.recruiter.service.impl;
 
-import java.awt.color.CMMException;
 import java.util.Set;
 
 import javax.transaction.Transactional;
@@ -20,7 +19,6 @@ import com.recruiter.recruiter.repository.EndUserRepository;
 import com.recruiter.recruiter.repository.PasswordResetTokenRepository;
 import com.recruiter.recruiter.repository.RoleRepository;
 import com.recruiter.recruiter.repository.UserRepository;
-import com.recruiter.recruiter.repository.UserRoleRepository;
 import com.recruiter.recruiter.service.UserService;
 
 @Service

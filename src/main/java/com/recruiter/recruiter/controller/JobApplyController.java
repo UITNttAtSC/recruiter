@@ -2,9 +2,6 @@ package com.recruiter.recruiter.controller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.nio.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;

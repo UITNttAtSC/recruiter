@@ -17,7 +17,7 @@ import com.recruiter.recruiter.service.JobPostService;
 
 @Controller
 public class HomeController {
-
+	
     @Autowired
     JobPostService jobPostService;
 

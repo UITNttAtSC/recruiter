@@ -27,7 +27,7 @@ import com.recruiter.recruiter.service.UserService;
 
 @Controller
 public class JobPostController {
-
+	
     @Autowired
     JobPostService postService;
     

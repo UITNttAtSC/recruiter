@@ -25,7 +25,7 @@ import com.recruiter.recruiter.domain.User;
 
 @Component
 public class MailConstructor {
-
+	
 	@Autowired
 	private Environment env;
 
