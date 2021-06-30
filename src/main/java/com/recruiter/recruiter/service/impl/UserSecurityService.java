@@ -1,0 +1,39 @@
+package com.recruiter.recruiter.service.impl;
+
+import java.util.Set;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.recruiter.recruiter.domain.User;
+import com.recruiter.recruiter.domain.security.UserRole;
+import com.recruiter.recruiter.repository.UserRepository;
+
+@Service
+public class UserSecurityService implements UserDetailsService{
+	
+	@Autowired
+	private UserRepository userRepository;
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user=userRepository.findByUsername(username);
+		
+		if (null == user) {
+			throw new UsernameNotFoundException("Username Not Found");
+		}
+	
+		
+		return user;
+	}
+	
+	
+	
+	
+
+}

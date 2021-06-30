@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="eng" xmlns:th="http://www.w3.org/1000/xhtml">
+
+<head th:replace="common/master :: header" />
+
+<body class="background-color-white">
+    
+    <header th:replace="common/master :: common-header" />
+    
+    <section id="resent-job-post" class="mt-10">
+        <div class="vertical-space-100"></div>
+        <div class="vertical-space-101"></div>
+        <div class="container text-center">
+            <h3 class="text-center">Uploaded Posts</h3>
+            <div class="vertical-space-30"></div>
+            Number of Posts: <span th:text="${noOfPosts}"></span> post(s)
+            <div class="vertical-space-60"></div>
+            <div class="detail" th:each="post : ${listOfPosts}">
+                <input type="hidden" id="postId" th:value="${post.postId}">
+                <div class="media display-inline text-align-center">
+                    <!-- <img src="imags/job-post-icone-1.png" alt="John Doe" class="mr-3 "> -->
+                    <div class="media-body text-left  text-align-center">
+                        <h6 th:text="${post.jobTitle}"></h6>
+                        <i class="large material-icons text-success">account_balance</i>
+                        <span class="text" th:text="${post.jobType}"></span>
+                        <br />
+                        <i class="fa fa-user text-primary" aria-hidden="true"></i>
+                        <span class="text" th:text="${post.employeeLimit}"></span> applicant(s)
+                        <br />
+                        <i class="fa fa-usd text-warning" aria-hidden="true"></i>
+                        $<span class="text font-size" th:text="${post.minSalary}"></span> ~
+                        $<span class="text font-size" th:text="${post.maxSalary}"></span>
+                        <div class="float-right margin-top text-align-center">
+                            <a th:onclick="'deletePost(\'' + ${post.postId} + '\');'" class="btn btn-danger">Delete</a>
+                            <a th:href="@{/updatePost/}+${post.postId}" class="btn btn-info">Update</a>
+                            <div>status: 
+                                <span th:if="${post.status}" class="text-success">Approved</span>
+                                <span th:if="!${post.status}" class="text-warning">Pending</span>
+                            </div> 
+                            <p class="date-time">Deadline: <span th:text="${post.deadline}"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="vertical-space-20"></div>
+            <div class="job-list">
+                <!-- <a href="#" class="Open-Jobs-Page margin-auto">Open Jobs Page<i class="large material-icons float-right">trending_flat</i></a> -->
+                <ul class="pagination justify-content-end margin-auto">
+                    <li class="page-item"><a class="page-link pdding-none" href="javascript:void(0);"><i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_left</i></a></li>
+                    <li class="page-item"><a class="page-link active" href="javascript:void(0);">1</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                    <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
+                    <li class="page-item">
+                        <a class="page-link pdding-none" href="javascript:void(0);"> <i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_right</i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="vertical-space-60"></div>
+    </section>
+    
+    <footer th:replace="common/master :: footer" />
+    
+    <div th:replace="common/master :: common-script" />
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <script>
+        function deletePost(id){
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                    )
+                    window.location="/deletePost/"+id;
+                }
+            })
+        }
+    </script>
+    
+</body>
+
+</html>
