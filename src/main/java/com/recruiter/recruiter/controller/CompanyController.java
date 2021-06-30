@@ -92,12 +92,5 @@ public class CompanyController {
         companyService.save(user, company);
         return "index";
     }
-
-    @RequestMapping("/payment")
-    public String payment(Model model) {
-        Payment payment = new Payment();
-        model.addAttribute("payment",payment);
-        return "company_payment";
-    }
     
 }
