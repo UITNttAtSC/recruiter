@@ -35,9 +35,6 @@ public class UserServiceImpl implements UserService{
 	private RoleRepository roleRepository;
 	
 	@Autowired
-	private UserRoleRepository userRoleRepository;
-	
-	@Autowired
 	private PasswordResetTokenRepository passwordResetTokenRepository;
 	
 	@Autowired

@@ -24,17 +24,19 @@
     
     <div id="search-box">
         <div class="container search-box">
-            <form action="#" id="search-box_search_form_3" class="search-box_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between ">
+            <form th:action="@{/searchPostWithCategoryAndLocation}" method="post" id="search-box_search_form_3" class="search-box_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between ">
                 <div class="d-flex flex-row align-items-center justify-content-start inline-block">
                     <span class="large material-icons search">search</span>
-                    <input class="search-box_search_input" placeholder="Search Keyword" required="required" type="search">
-                    <select class="dropdown_item_select search-box_search_input">
-                        <option>Category</option>
-                        <option>Category1</option>
-                        <option>Category2</option>
+                    <input class="search-box_search_input" placeholder="Search Keyword" name="jobName" type="search">
+                    <select class="dropdown_item_select search-box_search_input"  th:name="jobCategory">
+                            <option value="allJobCategory" selected="selected">Search by Job Category</option>
+                            <option th:each="jobCategory : ${jobCategoriesList}" th:text="${jobCategory}"></option>
                     </select>
                     <span class="large material-icons search">place</span>
-                    <input class="search-box_search_input " placeholder="Location" required="required" type="search">
+                    <select class="dropdown_item_select search-box_search_input"  th:name="jobLocation">
+                          <option value="allLocation" selected="selected">Search by Job Location</option>
+                          <option th:each="jobLocation : ${jobLocationsList}" th:text="${jobLocation}"></option>                       
+                    </select>
                 </div>
                 <button type="submit" class="search-box_search_button">Search Jobs</button>
             </form>

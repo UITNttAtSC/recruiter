@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -39,7 +40,8 @@ public class HomeController {
 	  finalMapDescendingOrder.entrySet().stream().limit(8)
 		.forEachOrdered(e -> mostAppliedJobLists.put(e.getKey(), e.getValue()+" Job Posts")) ;
         
-        
+        model.addAttribute("jobLocationsList", JobPostController.jobLocationsList);
+        model.addAttribute("jobCategoriesList", JobPostController.jobCategoriesList);
         model.addAttribute("listOfPosts", jobPosts);
         model.addAttribute("mostAppliedJobLists", mostAppliedJobLists);
         return "index";
@@ -86,6 +88,41 @@ public class HomeController {
           System.out.println(jobListCountByCategory);
   
         return "category_postCounts";
+    }
+    
+    @RequestMapping("/searchPostWithCategoryAndLocation")
+    private String searchPostWithCategoryAndLocation(Model model,
+    		@ModelAttribute("jobCategory") String jobCategory,
+    		@ModelAttribute("jobLocation") String jobLocation,
+    		@ModelAttribute("jobName") String jobName){
+       
+    	List<JobPost> jobList = jobPostService.findAll();
+    	
+       List<JobPost> filteredPostList = jobList;
+  
+         if(jobName != null && (!jobName.equals(""))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobTitle().equals(jobName)).collect(Collectors.toList());
+		  }
+		  
+		  if(jobCategory != null && (!jobCategory.equals("")) && (!jobCategory.equals("allJobCategory"))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobCategory().equals(jobCategory)).collect(Collectors.toList());
+		  }
+		  
+		  if(jobLocation != null && (!jobLocation.equals("")) && (!jobLocation.equals("allLocation"))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobLocation().equals(jobLocation)).collect(Collectors.toList());
+		  }
+    	
+		   JobPost post = new JobPost();
+	        // Company company = companyService.findByCompanyName(principal.getName());
+		    model.addAttribute("jobLocationsList", JobPostController.jobLocationsList);
+	        model.addAttribute("jobCategoriesList", JobPostController.jobCategoriesList);
+	        model.addAttribute("listOfPosts", filteredPostList);
+	        model.addAttribute("noOfPosts", filteredPostList.size());
+	        model.addAttribute("post", post);
+	        return "uploaded-post";
     }
 
     @RequestMapping("/allJobs")

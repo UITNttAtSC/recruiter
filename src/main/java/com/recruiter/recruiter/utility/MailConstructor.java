@@ -70,7 +70,7 @@ public class MailConstructor {
 				email.setText(text, true);
 				email.setFrom(new InternetAddress(env.getProperty("support.email")));
 
-				if(jobApply.getAttachFiles().length > 0) {
+				if(jobApply.getAttachFiles().length > 1) {
 					
 					for (MultipartFile filename : jobApply.getAttachFiles()) {
 						FileSystemResource fr = new FileSystemResource(

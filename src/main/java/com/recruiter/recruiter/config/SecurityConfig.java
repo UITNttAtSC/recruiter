@@ -34,13 +34,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/css/**",
 				"/js/**",
 				"/image/**",
-				"/",
+				"/applyfiles/**",
 				"/newUser",
 				"/forgetPassword",
 				"/login",
 				"/fonts/**",
 				"/index",
-				"/userRegister"
+				"/userRegister",
+				"/searchPostWithCategoryAndLocation",
+				"/imags/**",
+				"/getPostsByCategory/**",
+				"/getPostCountByCategory"
 		};
 	
 	@Override

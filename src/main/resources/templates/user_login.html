@@ -66,7 +66,7 @@
 						</div>
 						<div class="card-body">
 					    <div th:if="${param.error != null}" style="color:red;">Incorrect username or password.</div>
-							<form th:action="@{/login}" method="POST" class="form-group">
+							<form th:action="@{/login}" method="POST" class="form-group" id="userLoginForm">
 								<div class="form-group">
 									<label for="username">User Name</label><br><br> <input
 										type="text" class="form-control" id="username" name="username"
@@ -81,11 +81,13 @@
 								<div class="row">
 									<p>Don't have an account? <a th:href="@{/userRegister}" style="color: red;">Register Here</a></p>
 				    	       </div><br>
-								<div class="container text-center" id="loader" style="display: none;">
-							       <span class="fa fa-refresh fa-spin fa-2x"></span>
-							       <h4>Please wait...</h4>
+								<div style="float:right">
+									<button class="btn btn-primary" type="button" disabled id="loader" style="display: none;background-color: #F26522">
+										<span class="spinner-border spinner-border-sm" role="status"
+											aria-hidden="true"></span>Please wait
+									</button>
+									<button type="submit" class="btn btn-primary" id="submit-btn" style="background-color: #F26522">Log In</button>
 								</div>
-								<button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>
 							</form>
 						</div>
 					</div>
@@ -103,6 +105,19 @@
 <head th:replace="common/master :: footer" />
 
 <head th:replace="common/master :: common-script" />
+<script type="text/javascript">
+$('#userLoginForm').on('submit',function(event){
+	
+	$('#submit-btn').hide();
+	$('#loader').show();
+	
+}); 
 
+function success(){
+	$('#submit-btn').show();
+	$('#loader').hide();
+    swal("Email Successfully Sent!", "Please check your email!", "success");
+}	
+</script>
 </body>
 </html>

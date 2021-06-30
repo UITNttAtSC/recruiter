@@ -3,6 +3,8 @@ package com.recruiter.recruiter.controller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.nio.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
@@ -108,11 +110,10 @@ public class JobApplyController {
 	private String applyJobEmailFormat(Model model) {
 		return "interview_invitation_email_format";
 	}
-
+	
 	@PostMapping("/jobApply/{postId}")
 	private String jobApply(HttpServletRequest request, @PathVariable("postId") Long postId,
 			@ModelAttribute("userId") Long userId,
-			@ModelAttribute("attachFiles") Long attachFiles,
 			@ModelAttribute("jobApply") JobApply jobApply, Model model,Principal principal
 
 	) throws IOException, InterruptedException {
@@ -128,9 +129,9 @@ public class JobApplyController {
 		if(alreadyApply == null) {
 			jobApplyService.save(jobApply);
 		}	
-
-		if (jobApply.getAttachFiles().length > 1) {
-
+		
+		if(jobApply.getAttachFiles().length > 1) {
+		
 			BufferedOutputStream stream = null;
 
 			for (MultipartFile file : jobApply.getAttachFiles()) {
@@ -144,26 +145,31 @@ public class JobApplyController {
 
 				stream.close();
 
-			}
-		}
-        
+		  }
+	}
+		
 		EndUser endUser = endUserService.findByUser(jobApply.getUser());
 		
 		String userDetailLink = "";
 		mailSender.send(mailConstructor.applyJobEmail(request.getLocale(), userDetailLink, jobApply , endUser));
 
-		/*
-		 * File applyFiles = new File("src/main/resources/static/applyfiles/");
-		 * 
-		 * for (File file : applyFiles.listFiles()) {
-		 * 
-		 * file.delete();
-		 * 
-		 * }
-		 */
+	    
 		
+		  File applyFiles = new File("src/main/resources/static/applyfiles/");
+		  
+		  if(applyFiles.exists()) {
+			  
+			  for (File file : applyFiles.listFiles()) {
+				  
+				  file.delete();
+				  
+				  }
+		  }
+		  
+
 		 
-        
+	    
+		model.addAttribute("emailSent", true);
 		return "redirect:/viewPosts";
 
 	}
@@ -207,6 +213,7 @@ public class JobApplyController {
 		 mailSender.send(mailConstructor.interviewInvitationEmail(request.getLocale(), userDetailLink, replyEmail, user, post));
 
 		model.addAttribute("emailSuccess", true);
+		model.addAttribute("emailSent", true);
         
 		return "redirect:/viewPosts";
 
