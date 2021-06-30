@@ -86,6 +86,7 @@ public class MailConstructor {
 	
 	public MimeMessagePreparator interviewInvitationEmail(Locale locale,String userDeatilLink,ReplyEmail replyEmail,User user,JobPost post) {
 		Context context = new Context();
+
 		context.setVariable("companyName", post.getCompany().getUser().getUsername());
 		context.setVariable("companyEmail", post.getCompany().getUser().getEmail());
 		context.setVariable("companyPhone", post.getCompany().getCompanyPhone());

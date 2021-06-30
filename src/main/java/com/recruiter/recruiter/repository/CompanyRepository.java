@@ -7,5 +7,10 @@ import com.recruiter.recruiter.domain.User;
 
 public interface CompanyRepository extends CrudRepository<Company, Long> {
     
+
     Company findByUser(User user);
+
+    Company findByCompanyName(String companyName);
+
+    Company findByUser_Id(Long userId);
 }

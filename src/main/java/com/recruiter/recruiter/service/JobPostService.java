@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.recruiter.recruiter.domain.JobPost;
 
+import org.springframework.data.domain.Page;
+
 public interface JobPostService {
     List<JobPost> findAll();
 
-    List<JobPost> findFirst5ByStatusOrderByUpdatedAtDesc(boolean status);
+    List<JobPost> findFirst5ByStatusOrderByUpdatedAt(boolean status);
 
-    List<JobPost> findAllByStatusOrderByUpdatedAtDesc(boolean status);
+    Page<JobPost> findAllByStatusOrderByUpdatedAt(Integer pageNo, Integer pageSize, boolean status);
 
     JobPost save(JobPost post);
 
