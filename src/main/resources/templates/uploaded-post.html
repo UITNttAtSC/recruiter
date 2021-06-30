@@ -4,6 +4,7 @@
 <head th:replace="common/master :: header" />
 
 
+
 <body class="background-color-white" th:onload="${emailSent}? 'success()'" >
 
 	<header th:replace="common/master :: common-header" />
@@ -134,24 +135,13 @@
             <div th:replace="common/master :: jobPost" />
             
             <div class="vertical-space-20"></div>
-            <div class="job-list">
+            <div class="job-list" th:if="${totalPages==0}">
                 <!-- <a href="#" class="Open-Jobs-Page margin-auto">Open Jobs Page<i class="large material-icons float-right">trending_flat</i></a> -->
                 <ul class="pagination justify-content-end margin-auto">
-                    <li class="page-item"><a
-							class="page-link pdding-none" href="javascript:void(0);"><i
-								class=" material-icons keyboard_arrow_left_right">keyboard_arrow_left</i></a></li>
-                    <li class="page-item"><a
-							class="page-link active" href="javascript:void(0);">1</a></li>
-                    <li class="page-item"><a class="page-link"
-							href="javascript:void(0);">2</a></li>
-                    <li class="page-item"><a class="page-link"
-							href="javascript:void(0);">3</a></li>
-                    <li class="page-item"><a class="page-link"
-							href="javascript:void(0);">4</a></li>
-                    <li class="page-item">
-                        <a class="page-link pdding-none"
-							href="javascript:void(0);"> <i
-								class=" material-icons keyboard_arrow_left_right">keyboard_arrow_right</i></a>
+                    <li class="page-item" th:if="${hasPrevious}"><a class="page-link pdding-none" th:href="@{/allJobs?pageNo=}+${currentPage-1}"><i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_left</i></a></li>
+                    <li class="page-item" th:each="i : ${#numbers.sequence(1, totalPages, 1)}"><a class="page-link" th:classappend="${currentPage==i}? 'active'" th:href="@{/allJobs?pageNo=}+${i}" th:text="${i}"></a></li>
+                    <li class="page-item" th:if="${hasNext}">
+                        <a class="page-link pdding-none" th:href="@{/allJobs?pageNo=}+${currentPage+1}"> <i class=" material-icons keyboard_arrow_left_right">keyboard_arrow_right</i></a>
                     </li>
                 </ul>
             </div>

@@ -6,11 +6,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.recruiter.recruiter.domain.JobPost;
 import com.recruiter.recruiter.service.JobPostService;
@@ -23,6 +25,7 @@ public class HomeController {
 
     @RequestMapping( {"/", "/index"} )
     private String index(Model model){
+
         List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAtDesc(true);
         
         Map<String, Long> counting = jobPostService.findAll().stream().collect(
@@ -42,6 +45,8 @@ public class HomeController {
         
         model.addAttribute("jobLocationsList", JobPostController.jobLocationsList);
         model.addAttribute("jobCategoriesList", JobPostController.jobCategoriesList);
+        
+        List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAt(true);
         model.addAttribute("listOfPosts", jobPosts);
         model.addAttribute("mostAppliedJobLists", mostAppliedJobLists);
         return "index";
@@ -126,9 +131,14 @@ public class HomeController {
     }
 
     @RequestMapping("/allJobs")
-    private String allJob(Model model){
-        List<JobPost> jobPosts = jobPostService.findAllByStatusOrderByUpdatedAtDesc(true);
-        model.addAttribute("listOfPosts", jobPosts);
+    private String allJobs(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, Model model){
+        Page<JobPost> jobPosts = jobPostService.findAllByStatusOrderByUpdatedAt(pageNo-1, pageSize, true);
+        model.addAttribute("listOfPosts", jobPosts.getContent());
+        model.addAttribute("noOfPosts", jobPosts.getContent().size());
+        model.addAttribute("totalPages", jobPosts.getTotalPages());
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("hasNext", jobPosts.hasNext());
+        model.addAttribute("hasPrevious", jobPosts.hasPrevious());
         return "uploaded-post";
     }
 }

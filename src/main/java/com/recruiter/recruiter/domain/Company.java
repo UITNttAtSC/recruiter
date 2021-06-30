@@ -28,7 +28,6 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "companyId", nullable = false, updatable = false)
     private Long companyId;
-
     private String companyPhone;
     private String companyWebsite;
     private String companyType;
@@ -41,7 +40,7 @@ public class Company {
     private MultipartFile companyLogo;
     
     @Transient
-    private MultipartFile companyFeaturePhoto;
+    private List<MultipartFile> companyFeaturePhotos;
     
     @Column(columnDefinition = "text")
     private String companyMission;
@@ -49,6 +48,7 @@ public class Company {
     @Column(columnDefinition = "text")
     private String companyVision;
     
+
 	@OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false,name = "user_id")
 	private User user;
@@ -173,20 +173,6 @@ public class Company {
     }
     
     /**
-    * @return MultipartFile return the companyFeaturePhoto
-    */
-    public MultipartFile getCompanyFeaturePhoto() {
-        return companyFeaturePhoto;
-    }
-    
-    /**
-    * @param companyFeaturePhoto the companyFeaturePhoto to set
-    */
-    public void setCompanyFeaturePhoto(MultipartFile companyFeaturePhoto) {
-        this.companyFeaturePhoto = companyFeaturePhoto;
-    }
-    
-    /**
     * @return String return the companyMission
     */
     public String getCompanyMission() {
@@ -227,16 +213,15 @@ public class Company {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
+    public List<MultipartFile> getCompanyFeaturePhotos() {
+        return companyFeaturePhotos;
+    }
 
-	@Override
-	public String toString() {
-		return "Company [companyId=" + companyId + ", companyPhone=" + companyPhone + ", companyWebsite="
-				+ companyWebsite + ", companyType=" + companyType + ", noOfEmployee=" + noOfEmployee
-				+ ", companyAddress=" + companyAddress + ", companyLogo=" + companyLogo + ", companyFeaturePhoto="
-				+ companyFeaturePhoto + ", companyMission=" + companyMission + ", companyVision=" + companyVision
-				+ ", user=" + user + ", post=" + post + ", payment=" + payment + "]";
-	}
+    /**
+     * @param companyFeaturePhotos the companyFeaturePhotos to set
+     */
+    public void setCompanyFeaturePhotos(List<MultipartFile> companyFeaturePhotos) {
+        this.companyFeaturePhotos = companyFeaturePhotos;
+    }
 
-    
-    
 }

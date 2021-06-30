@@ -6,7 +6,16 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import java.util.stream.Collectors;
+import java.util.concurrent.TimeUnit;
+
+import com.recruiter.recruiter.domain.Company;
+import com.recruiter.recruiter.domain.JobPost;
+import com.recruiter.recruiter.domain.Payment;
+import com.recruiter.recruiter.service.CompanyService;
+import com.recruiter.recruiter.service.JobPostService;
+import com.recruiter.recruiter.service.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -261,5 +270,23 @@ public class JobPostController {
     private String deletePost(@PathVariable("postId") Long postId){
         postService.removeById(postId);
         return "redirect:/viewPosts";
+    }
+
+    @RequestMapping("/jobPostDetails/{jobPostId}")
+    private String jobPostDetails(@PathVariable("jobPostId") Long jobPostId, Model model){
+        JobPost jobPost = postService.findById(jobPostId);
+        
+        Long createdAt = jobPost.getCreatedAt().getTime();
+        
+        Date currentDate = new Date();
+        Long currentTime = currentDate.getTime();
+
+        long diffInMillies = Math.abs(currentTime - createdAt);
+        long dateDiff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+        model.addAttribute("dateDiff", dateDiff);
+        model.addAttribute("jobPost", jobPost);
+
+        return "job-post-detail";
     }
 }
