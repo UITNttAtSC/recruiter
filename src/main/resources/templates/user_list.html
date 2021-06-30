@@ -10,16 +10,14 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Phone</th>
                 <th>Action<th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="user : ${userList}">
-                <td><a th:text="${user.username}" th:href="@{/userApplyJobs/}+${user.id}"></a></td>
+                <td><a th:text="${user.username}" th:href="@{/userApplyJobs/}+${user.userId}"></a></td>
                 <td th:text="${user.email}"></td>
-                <td th:text="${user.phone}"></td>
-                <td><a th:href="@{/interviewInvitaionToUser/}+${post_id}+'/'+${user.id}" class="btn btn-info">Reply Email To User</a></td>
+                <td><a th:href="@{/interviewInvitaionToUser/}+${post_id}+'/'+${user.userId}" class="btn btn-info">Reply Email To User</a></td>
             </tr>
 
         </tbody>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="eng" xmlns:th="http://www.w3.org/1000/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:fragment="header">
 
 <meta charset="utf-8">
@@ -17,9 +17,6 @@
 
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 
-<link th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}"
-	rel="stylesheet" type="text/css">
-
 <link th:href="@{/css/matrialize.css}" rel="stylesheet">
 
 <link th:href="@{/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
@@ -30,6 +27,8 @@
 
 <link rel="stylesheet" th:href="@{/css/mdb.min.css}">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <link rel="stylesheet" th:href="@{/css/style.css}">
 
 <link rel="stylesheet" th:href="@{/css/mycss.css}">
@@ -37,6 +36,7 @@
  <link rel="stylesheet" th:href="@{/css/animations.css}">
 
  <link rel="stylesheet" th:href="@{/css/custom-radio-button.css}">
+ 
 
 </head>
 <body>
@@ -101,9 +101,11 @@
 											<li><a th:href="job_category.html">Job List</a></li>
 											<li><a th:href="job_detail.html">Job Detail</a></li>
 										</ul></li>
-									<li><a href="blog_page.html"> Blog</a></li>
-									<li><a href="about_us.html">About</a></li>
-									<li><a href="contact.html">Contact</a></li>
+					            	<li><a sec:authorize="isAnonymous()" th:href="@{/login}">Log In</a></li>
+					            	<li><a sec:authorize="isAnonymous()" th:href="@{/userRegister}">Account Create</a></li>
+						            <li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}">My Profile</a></li>
+						             <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">LogOut</a></li>
+						             <li><a sec:authorize="isAuthenticated()" th:href="@{/updateUser}">Edit</a></li>
 									<li class="dropdown ">
                                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-building fa-2x" aria-hidden="true"></i>
                                             <span class="caret"></span>
@@ -124,7 +126,7 @@
                                         </ul>
                                     </li>
 								</ul>
-								<div class=" Post-Jobs">
+								<div class=" Post-Jobs" sec:authorize="hasAnyAuthority('ROLE_COMPANY')">		
 									<a th:href="@{/postJob}" class=""> Post Jobs </a>
 								</div>
 								<div class="hamburger menu_mm menu-vertical">
@@ -166,15 +168,16 @@
 						</ul></li>
 					<li class="dropdown menu_mm"><a
 						class="dropdown-toggle menu_mm" data-toggle="dropdown" href="#">Job
-							<span class="caret"></span>
 					</a>
 						<ul class="dropdown-menu menu_mm">
 							<li class="menu_mm"><a href="job_category.html">Job List</a></li>
 							<li class="menu_mm"><a href="job_detail.html">Job Detail</a></li>
 						</ul></li>
-					<li class="menu_mm"><a href="blog_page.html">Blog</a></li>
-					<li class="menu_mm"><a href="about_us.html">About</a></li>
-					<li class="menu_mm"><a href="contact.html">Contact</a></li>
+					    <li><a sec:authorize="isAnonymous()" th:href="@{/login}">Log In</a></li>
+					    <li><a sec:authorize="isAnonymous()" th:href="@{/userRegister}">Account Create</a></li>
+						<li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}">My Profile</a></li>
+						<li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">LogOut</a></li>
+						<li><a sec:authorize="isAuthenticated()" th:href="@{/updateUser}">Edit</a></li>
 				</ul>
 			</nav>
 		</div>
@@ -201,10 +204,16 @@
 					Negotiable
 				</span>
 				<div class="float-right margin-top text-align-center">
-					<a th:onclick="'deletePost(\'' + ${post.postId} + '\');'" class="btn btn-danger">Delete</a>
-					<a th:href="@{/updatePost/}+${post.postId}" class="btn btn-info">Update</a>
+					<a th:onclick="'deletePost(\'' + ${post.postId} + '\');'" class="btn btn-danger" sec:authorize="hasAnyAuthority('ROLE_COMPANY')">Delete</a>
+					
+					<a th:href="@{/updatePost/}+${post.postId}" class="btn btn-info" sec:authorize="hasAnyAuthority('ROLE_COMPANY')">Update</a>
+					
+				   <a th:href="@{/jobApply/}+${post.postId}" class="btn btn-info" sec:authorize="hasAnyAuthority('ROLE_END_USER')">Job Apply</a>
+				   
+					<a th:href="@{/jobApplyUsers/}+${post.postId}" class="btn btn-info" sec:authorize="hasAnyAuthority('ROLE_COMPANY')">View user</a>
+					
 				   <a th:href="@{/jobPostDetails/}+${post.postId}" class="btn btn-info">View Details</a>
-					<a th:href="@{/jobApplyUsers/}+${post.postId}" class="btn btn-info">View user</a>
+
 					<div>status: 
 						<span th:if="${post.status}" class="text-success">Approved</span>
 						<span th:if="!${post.status}" class="text-warning">Pending</span>
