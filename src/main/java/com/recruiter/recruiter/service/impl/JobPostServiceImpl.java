@@ -48,5 +48,10 @@ public class JobPostServiceImpl implements JobPostService{
         Pageable paging = PageRequest.of(pageNo, pageSize);
         return postRepository.findAllByStatusOrderByUpdatedAt(status, paging);
     }
+
+	@Override
+	public List<JobPost> findByJobCategory(String jobCategory) {
+		return postRepository.findByJobCategory(jobCategory);
+	}
     
 }

@@ -1,9 +1,14 @@
 package com.recruiter.recruiter.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.nio.*;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +21,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.recruiter.recruiter.domain.EndUser;
 import com.recruiter.recruiter.domain.JobApply;
 import com.recruiter.recruiter.domain.JobPost;
 import com.recruiter.recruiter.domain.ReplyEmail;
 import com.recruiter.recruiter.domain.User;
+import com.recruiter.recruiter.service.EndUserService;
 import com.recruiter.recruiter.service.JobApplyService;
 import com.recruiter.recruiter.service.JobPostService;
 import com.recruiter.recruiter.service.UserService;
@@ -40,6 +48,9 @@ public class JobApplyController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private EndUserService endUserService;
 
 	@Autowired
 	private JobApplyService jobApplyService;
@@ -48,8 +59,8 @@ public class JobApplyController {
 	private JobPostService jobPostServie;
 
 	@RequestMapping("/jobApply/{postId}")
-	private String jobApply(@PathVariable("postId") Long postId, Model model, Principal principal) {
-		User user = userService.findByUsername("HH");
+	private String jobApply(Principal principal,@PathVariable("postId") Long postId, Model model) {
+		User user = userService.findByUsername(principal.getName());
 		model.addAttribute("user", user);
 		model.addAttribute("jobApply", new JobApply());
 		model.addAttribute("post_id", postId);
@@ -61,21 +72,34 @@ public class JobApplyController {
 	private String jobApplyUsers(@PathVariable("postId") Long postId, Model model, Principal principal) {
 		JobPost jobPost = jobPostServie.findById(postId);
 		List<User> userList = jobApplyService.findUserByJobPostId(jobPost);
-
+		List<EndUser> endUserList = new ArrayList<EndUser>();
+		EndUser enduser = null;
+		for(User user:userList) {
+			enduser = endUserService.findByUser(user);
+			endUserList.add(enduser);
+		}
+		
 		model.addAttribute("userList", userList);
 		model.addAttribute("post_id", postId);
+		model.addAttribute("endUserList", endUserList);
 
 		return "user_list";
 	}
 
 	@RequestMapping("/userApplyJobs/{userId}")
 	private String userApplyJobs(@PathVariable("userId") Long userId, Model model, Principal principal) {
+		
 		User user = userService.findById(userId);
 		List<JobPost> jobList = jobApplyService.findJobPostByUserId(user);
+   	    JobPost post = new JobPost();
+
 
 		model.addAttribute("userId", userId);
 		model.addAttribute("listOfPosts", jobList);
 		model.addAttribute("noOfPosts", jobList.size());
+        model.addAttribute("jobLocationsList", JobPostController.jobLocationsList);
+        model.addAttribute("jobCategoriesList", JobPostController.jobCategoriesList);
+        model.addAttribute("post", post);
 		return "uploaded-post";
 
 	}
@@ -88,14 +112,14 @@ public class JobApplyController {
 	@PostMapping("/jobApply/{postId}")
 	private String jobApply(HttpServletRequest request, @PathVariable("postId") Long postId,
 			@ModelAttribute("userId") Long userId,
-			@ModelAttribute("jobApply") JobApply jobApply, Model model
+			@ModelAttribute("attachFiles") Long attachFiles,
+			@ModelAttribute("jobApply") JobApply jobApply, Model model,Principal principal
 
 	) throws IOException, InterruptedException {
 
 		JobPost jobPost = jobPostServie.findById(postId);
-		User user = userService.findById(userId);
+		User user = userService.findByUsername(principal.getName());
 
-		System.out.println(user);
 		jobApply.setJobPost(jobPost);
 		jobApply.setUser(user);
 		
@@ -105,42 +129,40 @@ public class JobApplyController {
 			jobApplyService.save(jobApply);
 		}	
 
+		if (jobApply.getAttachFiles().length > 1) {
+
+			BufferedOutputStream stream = null;
+
+			for (MultipartFile file : jobApply.getAttachFiles()) {
+
+				// jobApply.getAttachFiles()..add(file.getOriginalFilename());
+
+				stream = new BufferedOutputStream(new FileOutputStream(
+						new File("src/main/resources/static/applyfiles/" + file.getOriginalFilename())));
+
+				stream.write(file.getBytes());
+
+				stream.close();
+
+			}
+		}
+        
+		EndUser endUser = endUserService.findByUser(jobApply.getUser());
+		
+		String userDetailLink = "";
+		mailSender.send(mailConstructor.applyJobEmail(request.getLocale(), userDetailLink, jobApply , endUser));
+
 		/*
-		 * if (jobApply.getAttachFiles().length > 1) {
-		 * 
-		 * BufferedOutputStream stream = null;
-		 * 
-		 * for (MultipartFile file : jobApply.getAttachFiles()) {
-		 * 
-		 * // jobApply.getAttachFiles()..add(file.getOriginalFilename());
-		 * 
-		 * stream = new BufferedOutputStream(new FileOutputStream( new
-		 * File("src/main/resources/static/applyfiles/" + file.getOriginalFilename())));
-		 * 
-		 * stream.write(file.getBytes());
-		 * 
-		 * stream.close();
-		 * 
-		 * } }
-		 * 
-		 * String userDetailLink = "";
-		 * mailSender.send(mailConstructor.applyJobEmail(request.getLocale(),
-		 * userDetailLink,jobApply));
-		 * 
 		 * File applyFiles = new File("src/main/resources/static/applyfiles/");
-		 * 
-		 * if (applyFiles.length() > 0) {
 		 * 
 		 * for (File file : applyFiles.listFiles()) {
 		 * 
 		 * file.delete();
 		 * 
 		 * }
-		 * 
-		 * }
 		 */
 		
-		model.addAttribute("emailSuccess", true);
+		 
         
 		return "redirect:/viewPosts";
 
@@ -151,6 +173,7 @@ public class JobApplyController {
 	private String replyEmailToUser(@PathVariable("postId") Long postId,
 			@PathVariable("userId") Long userId,
 			Model model, Principal principal) {
+		
 		User user = userService.findById(userId);
 		model.addAttribute("user", user);
 		model.addAttribute("replyEmail", new ReplyEmail());
@@ -182,13 +205,7 @@ public class JobApplyController {
 	     
 	     String userDetailLink = "";
 		 mailSender.send(mailConstructor.interviewInvitationEmail(request.getLocale(), userDetailLink, replyEmail, user, post));
-	     
-		System.out.println(interviewTimeString);
-		System.out.println(replyEmail.getEmailSubject());
-		System.out.println(replyEmail.getInterviewLocation());
-		System.out.println(replyEmail.getEmailContent1());
-		System.out.println(replyEmail.getEmailContent2());
-		
+
 		model.addAttribute("emailSuccess", true);
         
 		return "redirect:/viewPosts";

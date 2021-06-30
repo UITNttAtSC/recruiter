@@ -9,6 +9,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.recruiter.recruiter.domain.EndUser;
 import com.recruiter.recruiter.domain.JobApply;
 import com.recruiter.recruiter.domain.JobPost;
 import com.recruiter.recruiter.domain.ReplyEmail;
@@ -30,13 +32,31 @@ public class MailConstructor {
 	@Autowired
 	private TemplateEngine templateEngine;
 	
-	public MimeMessagePreparator applyJobEmail(Locale locale,String userDeatilLink,JobApply jobApply) {
+	public SimpleMailMessage constructResetTokenEmail(String contextPath,Locale locale,String token,User user,String password){
+		String url = contextPath + "/newUser?token="+token;
+		
+		String message = "\nPlease click on this link to verify your email and "
+				+ "edit your personal information.Your Password is : \n"+password;
+		
+		SimpleMailMessage email=new SimpleMailMessage();
+		email.setTo(user.getEmail());
+		email.setFrom(env.getProperty("support.email"));
+		email.setSubject("Recruiter - New User");
+		email.setText(url+message);
+		return email;
+		
+	}
+	
+	public MimeMessagePreparator applyJobEmail(Locale locale,String userDeatilLink,JobApply jobApply ,EndUser endUser) {
 		Context context = new Context();
 		context.setVariable("userName", jobApply.getUser().getUsername());
 		context.setVariable("userEmail", jobApply.getUser().getEmail());
-		context.setVariable("companyName", jobApply.getJobPost().getCompany().getCompanyName());
+		context.setVariable("userAddress", endUser.getAddress());
+		context.setVariable("userPhone", endUser.getPhone());
+		context.setVariable("companyName", jobApply.getJobPost().getCompany().getUser().getUsername());
 		context.setVariable("contentAboutJob", jobApply.getContentAboutJob());
 		context.setVariable("contentAboutCompany", jobApply.getContentAboutCompany());
+
 		String text = templateEngine.process("apply_job_email_format", context);
 		
 		
@@ -66,7 +86,8 @@ public class MailConstructor {
 	
 	public MimeMessagePreparator interviewInvitationEmail(Locale locale,String userDeatilLink,ReplyEmail replyEmail,User user,JobPost post) {
 		Context context = new Context();
-		context.setVariable("companyName", post.getCompany().getCompanyName());
+
+		context.setVariable("companyName", post.getCompany().getUser().getUsername());
 		context.setVariable("companyEmail", post.getCompany().getUser().getEmail());
 		context.setVariable("companyPhone", post.getCompany().getCompanyPhone());
 		context.setVariable("companyAddress", post.getCompany().getCompanyAddress());

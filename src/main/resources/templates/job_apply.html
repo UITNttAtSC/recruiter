@@ -25,7 +25,7 @@
 				</div>
 				<div class="card-body">
 					<form th:action="@{/jobApply/}+${post_id}" method="post" enctype="multipart/form-data" id="applyJob">
-                        <input type="hidden" th:value="${user.id}" name="userId">
+                        <input type="hidden" th:value="${user.userId}" name="userId">
 						<div class="form-outline mb-4">
 							<input type="text" id="userName" class="form-control" name="userName" th:value="${user.username}" disabled="disabled"/>
 							 <label class="form-label" for="userName">Your name</label>

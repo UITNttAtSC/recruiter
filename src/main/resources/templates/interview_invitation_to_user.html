@@ -24,7 +24,7 @@
 					<p>Reply User</p>
 				</div>
 				<div class="card-body">
-					<form th:action="@{/interviewInvitaionToUser/}+${postId}+'/'+${user.id}" method="post" enctype="multipart/form-data" id="applyJob">
+					<form th:action="@{/interviewInvitaionToUser/}+${postId}+'/'+${user.userId}" method="post" enctype="multipart/form-data" id="applyJob">
 
 						<div class="form-outline mb-4">
 							<input type="text" id="userName" class="form-control" name="userName" th:value="${user.username}" disabled="disabled"/>
