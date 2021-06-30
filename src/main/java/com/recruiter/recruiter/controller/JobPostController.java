@@ -36,7 +36,7 @@ import com.recruiter.recruiter.service.UserService;
 
 @Controller
 public class JobPostController {
-
+	
     @Autowired
     JobPostService postService;
     
@@ -156,7 +156,7 @@ public class JobPostController {
 		 * User user = userService.findByUsername(principal.getName()); Company company
 		 * = companyService.findByUser(user);
 		 */
-         List<JobPost> jobList = postService.findAll();
+          List<JobPost> jobList = postService.findAll();
     	
     	  List<JobPost> filteredPostList = jobList;
    

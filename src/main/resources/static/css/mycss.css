@@ -1,3 +1,19 @@
+.button .btn{
+	background-color: #F26522;
+}
+
+#submit-btn{
+	background-color: #F26522;
+}
+
+.btn{
+	background-color: #F26522;
+}
+
+button[type=button]{
+	background-color: #F26522;
+}
+
 #file {
     border: 2px dashed #92b0b3 !important
 }
