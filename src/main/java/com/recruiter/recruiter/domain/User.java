@@ -106,5 +106,17 @@ public class User implements UserDetails {
 		return "User [userId=" + userId + ", username=" + username + ", email=" + email + ", password=" + password
 				+ ", userRoles=" + userRoles + "]";
 	}
-		
+    /**
+     * @return Company return the company
+     */
+    public Company getCompany() {
+        return company;
+    }
+
+    /**
+     * @param company the company to set
+     */
+    public void setCompany(Company company) {
+        this.company = company;
+    }
 }

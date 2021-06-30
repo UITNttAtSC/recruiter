@@ -25,10 +25,11 @@ public class CompanyServiceImpl implements CompanyService {
     UserRepository userRepository;
 
     @Override
-    public Company save(User user, Company company) {
+    public void save(User user, Company company) {
         company.setUser(user);
+        user.setCompany(company);
+        // companyRepository.save(company);
         userRepository.save(user);
-        return companyRepository.save(company);
     }
 
     @Override

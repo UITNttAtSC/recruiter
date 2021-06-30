@@ -6,11 +6,11 @@
 <body class="background-color-white">
     
     <head th:replace="common/master :: common-header" />
-    
-    
+     
     <section id="post_job">
         <div class="vertical-space-100"></div>
         <div class="vertical-space-101"></div>
+        <input type="text" name="companyId" th:value="${company.companyId}">
         <div class="container">
             <div class="list-box">
                 <a href="#" class="font-color-black margin-right">Job </a> > <a href="#" class="font-color-orange margin-left"> Sign Up</a>
@@ -143,7 +143,7 @@
                             <label class="form-check-label text-left" for="exampleCheck1">By clicking on terms and conditions, you accept our Subscription Agreement and Privacy Policy</label>
                         </div>
                     </div>
-                    <button type="submit" class="btn Post-Job-Offer">Sign Up</button>
+                    <button type="submit" class="btn Post-Job-Offer">Create</button>
                 </form>
             </div>
         </div>
