@@ -49,10 +49,5 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.findByCompanyName(companyName);
     }
 
-    @Override
-    public Company findByUser_Id(Long userId) {
-        return companyRepository.findByUser_Id(userId);
-    }
-
     
 }

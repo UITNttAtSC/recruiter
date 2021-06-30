@@ -104,6 +104,7 @@
 					            	<li><a sec:authorize="isAnonymous()" th:href="@{/login}">Log In</a></li>
 					            	<li><a sec:authorize="isAnonymous()" th:href="@{/userRegister}">Account Create</a></li>
 						            <li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}">My Profile</a></li>
+						            <li><a th:href="@{/about}">About Recruiter</a></li>
 						             <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">LogOut</a></li>
 						             <li><a sec:authorize="isAuthenticated()" th:href="@{/updateUser}">Edit</a></li>
 									<li class="dropdown ">

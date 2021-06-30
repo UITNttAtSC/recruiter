@@ -12,8 +12,6 @@ public interface CompanyService {
     Company findByUser(User user);
   
     Company findByCompanyName(String companyName);
-
-    Company findByUser_Id(Long userId);
     
     void updateJobPost(JobPost jobPost, Company company, Payment payment);
 }

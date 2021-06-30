@@ -25,7 +25,7 @@ public class HomeController {
     @RequestMapping( {"/", "/index"} )
     private String index(Model model){
 
-        List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAtDesc(true);
+//        List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAtDesc(true);
         
         Map<String, Long> counting = jobPostService.findAll().stream().collect(
                 Collectors.groupingBy(JobPost::getJobCategory, Collectors.counting()));
@@ -103,4 +103,11 @@ public class HomeController {
         model.addAttribute("hasPrevious", jobPosts.hasPrevious());
         return "uploaded-post";
     }
+    
+    @RequestMapping("/about")
+    private String about(Model model)
+    {
+    	return "about_us.html";
+    }
+    
 }

@@ -60,8 +60,19 @@ public class Company {
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "company")
     private Payment payment;
     
+    private String companyName;
     
-    public User getUser() {
+    
+    
+    public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public User getUser() {
 		return user;
 	}
 
