@@ -18,5 +18,16 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment findByCompany(Company company) {
         return paymentRepository.findByCompany(company);
     }
+
+    @Override
+    public Payment save(Payment payment, Company company) {
+        payment.setCompany(company);
+        return paymentRepository.save(payment);
+    }
+
+    @Override
+    public Payment findByCompany_companyId(Long companyId) {
+        return paymentRepository.findByCompany_companyId(companyId);
+    }
     
 }
