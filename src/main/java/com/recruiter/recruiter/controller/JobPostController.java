@@ -14,12 +14,16 @@ import com.recruiter.recruiter.service.JobPostService;
 import com.recruiter.recruiter.service.PaymentService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class JobPostController {
@@ -110,12 +114,18 @@ public class JobPostController {
     }
 
     @RequestMapping("/viewPosts")
-    private String viewPosts(Model model, Principal principal){
+    private String viewPosts(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, Model model, Principal principal){
 
         Company company = companyService.findByCompanyName("gid");
         // Company company = companyService.findByCompanyName(principal.getName());
-        model.addAttribute("listOfPosts", company.getPost());
-        model.addAttribute("noOfPosts", company.getPost().size());
+        Page<JobPost> jobPost = new PageImpl<>(company.getPost(), PageRequest.of(pageNo-1, pageSize), company.getPost().size());
+        model.addAttribute("listOfPosts", jobPost.getContent());
+        model.addAttribute("noOfPosts", jobPost.getContent().size());
+        model.addAttribute("totalPages", jobPost.getTotalPages());
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("hasNext", jobPost.hasNext());
+        model.addAttribute("hasPrevious", jobPost.hasPrevious());
+        model.addAttribute("url", "viewPosts");
         return "uploaded-post";
     }
 
