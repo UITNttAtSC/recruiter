@@ -100,4 +100,19 @@ public class User{
 	}
 
 	
+
+    /**
+     * @return Company return the company
+     */
+    public Company getCompany() {
+        return company;
+    }
+
+    /**
+     * @param company the company to set
+     */
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
 }

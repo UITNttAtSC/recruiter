@@ -7,7 +7,7 @@ import com.recruiter.recruiter.domain.User;
 
 public interface CompanyService {
 
-    Company save(User user, Company company);
+    void save(User user, Company company);
     
     Company findByCompanyName(String companyName);
 
