@@ -47,7 +47,7 @@ public class CompanyController {
     private String companyAccount(Model model, Principal principal){
         // User user = userService.findByUsername(principal.getName());
         User user = userService.findByUsername("gid");
-        Company company = companyService.findByUser_Id(user.getId());
+        Company company = companyService.findByUser_Id(user.getUserId());
         model.addAttribute("company", company);
         model.addAttribute("user", user);
         model.addAttribute("action", "update");
