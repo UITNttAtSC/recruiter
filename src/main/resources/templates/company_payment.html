@@ -17,7 +17,7 @@
             </div>
             <div class="vertical-space-60"></div>
             <div class="job-post-box">
-                <form th:action="@{/}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/savePayment}" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="examplePaymentType" class="form-group">Payment Type</label>
                         <input type="text" class="form-control" id="exampleInputPaymentType" placeholder="Full name PaymentType"
@@ -54,7 +54,7 @@
                             <div class="form-group">
                                 <label for="exampleHolderName" class="form-group">Holder Name</label>
                                 <input type="text" class="form-control" id="exampleInputHolderName"
-                                placeholder="Expiry Year"
+                                placeholder="Enter Holder Name"
                                 th:value="${payment.holderName}" name="holderName"  />
                             </div>
                         </div>
