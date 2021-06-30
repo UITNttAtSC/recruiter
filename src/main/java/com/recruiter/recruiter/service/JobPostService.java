@@ -16,4 +16,6 @@ public interface JobPostService {
     JobPost findById(Long id);
 
     void removeById(Long id);
+    
+    List<JobPost> findByJobCategory(String jobCategory);
 }

@@ -2,10 +2,10 @@ package com.recruiter.recruiter.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.recruiter.recruiter.domain.Company;
+import com.recruiter.recruiter.domain.EndUser;
 import com.recruiter.recruiter.domain.User;
 
-public interface CompanyRepository extends CrudRepository<Company, Long> {
+public interface EndUserRepository extends CrudRepository<EndUser, Long> {
     
-    Company findByUser(User user);
+    EndUser findByUser(User user);
 }

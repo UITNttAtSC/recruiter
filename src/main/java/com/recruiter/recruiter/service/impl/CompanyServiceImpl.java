@@ -3,6 +3,7 @@ package com.recruiter.recruiter.service.impl;
 import com.recruiter.recruiter.domain.Company;
 import com.recruiter.recruiter.domain.JobPost;
 import com.recruiter.recruiter.domain.Payment;
+import com.recruiter.recruiter.domain.User;
 import com.recruiter.recruiter.repository.CompanyRepository;
 import com.recruiter.recruiter.repository.JobPostRepository;
 import com.recruiter.recruiter.service.CompanyService;
@@ -33,9 +34,11 @@ public class CompanyServiceImpl implements CompanyService {
         save(company);
     }
 
-    @Override
-    public Company findByCompanyName(String companyName) {
-        return companyRepository.findByCompanyName(companyName);
-    }
+	@Override
+	public Company findByUser(User user) {
+		return companyRepository.findByUser(user);
+	}
+
+  
     
 }
