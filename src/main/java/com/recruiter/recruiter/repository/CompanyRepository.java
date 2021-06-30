@@ -12,5 +12,5 @@ public interface CompanyRepository extends CrudRepository<Company, Long> {
 
     Company findByCompanyName(String companyName);
   
-  Company findByUser_Id(Long userId);
+  Company findByUser_userId(Long userId);
 }
