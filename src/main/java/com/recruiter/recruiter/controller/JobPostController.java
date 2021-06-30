@@ -1,9 +1,13 @@
 package com.recruiter.recruiter.controller;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import java.util.stream.Collectors;
 import java.util.concurrent.TimeUnit;
 
 import com.recruiter.recruiter.domain.Company;
@@ -25,11 +29,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.recruiter.recruiter.domain.Company;
+import com.recruiter.recruiter.domain.JobPost;
+import com.recruiter.recruiter.domain.Payment;
+import com.recruiter.recruiter.domain.User;
+import com.recruiter.recruiter.service.CompanyService;
+import com.recruiter.recruiter.service.JobPostService;
+import com.recruiter.recruiter.service.PaymentService;
+import com.recruiter.recruiter.service.UserService;
+
 @Controller
 public class JobPostController {
-
+	
     @Autowired
     JobPostService postService;
+    
+    @Autowired
+    UserService userService;
 
     @Autowired
     CompanyService companyService;
@@ -37,7 +53,7 @@ public class JobPostController {
     @Autowired
     PaymentService paymentService;
 
-    List<String> jobLocationsList = new ArrayList<String>(){{
+    static List<String> jobLocationsList = new ArrayList<String>(){{
                                         add("Yangon");
                                         add("Mandalay");
                                         add("Nay Pyi Thaw");
@@ -54,7 +70,7 @@ public class JobPostController {
                                         add("Kaya");
     }};
 
-    List<String> jobCategoriesList = new ArrayList<String>(){{
+   static List<String> jobCategoriesList = new ArrayList<String>(){{
                                         add("Administration, business and management");
                                         add("Alternative therapies");
                                         add("Animals, land and environment");
@@ -98,13 +114,10 @@ public class JobPostController {
     }
     
     @PostMapping("/addPost")
-    private String addPost(@ModelAttribute("post") JobPost post, Principal principal) {
-
-        Company company = new Company();
-        company.setCompanyId(1L);
-        company.setCompanyName("gid");
-
-        // Company company = companyService.findByCompanyName(principal.getName());
+    private String addPost(Principal principal,@ModelAttribute("post") JobPost post) {
+    	
+        User user = userService.findByUsername(principal.getName());
+        Company company = companyService.findByUser(user);
 
         Payment payment = paymentService.findByCompany(company);
 
@@ -112,6 +125,7 @@ public class JobPostController {
         
         return "redirect:/viewPosts";
     }
+   
 
     @RequestMapping("/viewPosts")
     private String viewPosts(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, Model model, Principal principal){
@@ -128,6 +142,117 @@ public class JobPostController {
         model.addAttribute("url", "viewPosts");
         return "uploaded-post";
     }
+    
+    @PostMapping("/jobPostFilter")
+    private String jobPostFilter(@ModelAttribute("post") JobPost filterPost,
+    		@ModelAttribute("jobTypeFullTime") String jobTypeFullTime,
+    		@ModelAttribute("jobTypePartTime") String jobTypePartTime,
+    		@ModelAttribute("jobTypeFreelancer") String jobTypeFreelancer,
+    		@ModelAttribute("jobTypeIntership") String jobTypeIntership,
+    		Model model, Principal principal){
+    	
+		/*
+		 * User user = userService.findByUsername(principal.getName()); Company company
+		 * = companyService.findByUser(user);
+		 */
+          List<JobPost> jobList = postService.findAll();
+    	
+    	  List<JobPost> filteredPostList = jobList;
+   
+		  
+		  if(filterPost.getJobTitle() != null && (!filterPost.getJobTitle().equals(""))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobTitle().equals(filterPost.getJobTitle())).collect(Collectors.toList());
+		  }
+		  
+		  if(filterPost.getJobCategory() != null && (!filterPost.getJobCategory().equals("")) && (!filterPost.getJobCategory().equals("allJobCategory"))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobCategory().equals(filterPost.getJobCategory())).collect(Collectors.toList());
+		  }
+		  
+		  if(filterPost.getJobLevel() != null && (!filterPost.getJobLevel().equals("")) && (!filterPost.getJobLevel().equals("allJobLevel"))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobLevel().equals(filterPost.getJobLevel())).collect(Collectors.toList());
+		  }
+		  
+		  if(jobTypeFullTime != null && (!jobTypeFullTime.equals(""))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobType().equals(jobTypeFullTime)).collect(Collectors.toList());
+		  }
+		  
+		  if(jobTypePartTime != null && (!jobTypePartTime.equals(""))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobType().equals(jobTypePartTime)).collect(Collectors.toList());
+		  }
+		  
+		  if(jobTypeIntership != null && (!jobTypeIntership.equals(""))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobType().equals(jobTypeIntership)).collect(Collectors.toList());
+		  }
+		  
+		  if(jobTypeFreelancer != null && (!jobTypeFreelancer.equals(""))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobType().equals(jobTypeFreelancer)).collect(Collectors.toList());
+		  }
+		  
+		  if(filterPost.getJobLocation() != null && (!filterPost.getJobLocation().equals("")) && (!filterPost.getJobLocation().equals("allLocation"))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getJobLocation().equals(filterPost.getJobLocation())).collect(Collectors.toList());
+		  }
+		  
+		  if(filterPost.getMinSalary() != null && filterPost.getMinSalary() != 0) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getMinSalary() >= filterPost.getMinSalary() ).collect(Collectors.toList());
+		  }
+    	
+    	
+    	JobPost post = new JobPost();
+        // Company company = companyService.findByCompanyName(principal.getName());
+        model.addAttribute("jobLocationsList", jobLocationsList);
+        model.addAttribute("jobCategoriesList", jobCategoriesList);
+        model.addAttribute("listOfPosts", filteredPostList);
+        model.addAttribute("noOfPosts", filteredPostList.size());
+        model.addAttribute("post", post);
+        return "uploaded-post";
+
+    }
+    
+    @PostMapping("/jobPostFilterByDate")
+    private String jobPostFilterByDate(@ModelAttribute(value = "searchPostsWithDate") String searchPostsWithDate,
+    		Model model, Principal principal){
+    	
+    	User user = userService.findByUsername(principal.getName());
+        Company company = companyService.findByUser(user);
+    	
+         List<JobPost> jobList = company.getPost();
+         
+         List<JobPost> filteredPostList = jobList;
+         
+         Integer day = Integer.parseInt(searchPostsWithDate);
+         
+         LocalDate today = LocalDate.now();  
+         LocalDate searchWithDate = today.minusDays(day);
+         
+         Date date = Date.from(searchWithDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    	   
+         if(searchPostsWithDate != null && (!searchPostsWithDate.equals(""))) {
+			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
+			  jobPostList.getCreatedAt().after(date) ).collect(Collectors.toList());
+			  System.out.println(filteredPostList);
+			  System.out.println("Before loop");
+		  }
+    	
+    	JobPost post = new JobPost();
+        // Company company = companyService.findByCompanyName(principal.getName());
+        model.addAttribute("jobLocationsList", jobLocationsList);
+        model.addAttribute("jobCategoriesList", jobCategoriesList);
+        model.addAttribute("listOfPosts", filteredPostList );
+        model.addAttribute("noOfPosts", filteredPostList.size());
+        model.addAttribute("post", post);
+        return "uploaded-post";
+
+    }
+   
 
     @RequestMapping("/updatePost/{postId}")
     private String updatePost(@PathVariable("postId") Long postId, Model model){

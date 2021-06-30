@@ -10,7 +10,13 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface JobPostRepository extends PagingAndSortingRepository<JobPost, Long> {
+  
     List<JobPost> findFirst5ByStatusOrderByUpdatedAt(boolean status);
 
+    List<JobPost> findAllByStatusOrderByUpdatedAtDesc(boolean status);
+    
+    List<JobPost> findByJobCategory(String jobCategory);
+
     Page<JobPost> findAllByStatusOrderByUpdatedAt(boolean status, Pageable paging);
+
 }

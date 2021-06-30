@@ -4,9 +4,12 @@ import java.util.Set;
 
 
 import com.recruiter.recruiter.domain.User;
+import com.recruiter.recruiter.domain.security.PasswordResetToken;
+import com.recruiter.recruiter.domain.security.UserRole;
 
 public interface UserService {
-
+	
+	PasswordResetToken getPasswordResetToken(final String token);
 	
 	void createPasswordResetTokenForUser(final User user,final String token);
 	
@@ -16,10 +19,8 @@ public interface UserService {
 	
 	User findById(Long id);
 	
+	User createUser(User user,Set<UserRole> userRoles) throws Exception;
+	
 	User save(User user);
-	
-	void setUserDefaultPayment(Long userPaymentId,User user);
-	
-	void setUserDefaultShipping(Long userShippingId,User user);
 
 }
