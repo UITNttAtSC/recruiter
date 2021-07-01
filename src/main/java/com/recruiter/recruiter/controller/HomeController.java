@@ -141,4 +141,10 @@ public class HomeController {
         model.addAttribute("url", "allJobs");
         return "uploaded-post";
     }
+    
+    @RequestMapping("/about")
+    private String about(Model model)
+    {
+    	return "about_us.html";
+    }
 }
