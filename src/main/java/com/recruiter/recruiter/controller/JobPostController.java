@@ -114,13 +114,18 @@ public class JobPostController {
     }
     
     @PostMapping("/addPost")
-    private String addPost(Principal principal,@ModelAttribute("post") JobPost post) {
+    private String addPost(Principal principal,@ModelAttribute("post") JobPost post, Model model) {
     	
         User user = userService.findByUsername(principal.getName());
         Company company = companyService.findByUser(user);
 
         Payment payment = paymentService.findByCompany(company);
 
+        if(payment == null){
+            payment = new Payment();
+            model.addAttribute("payment", payment);
+            return "company_payment";
+        }
         companyService.updateJobPost(post, company, payment);
         
         return "redirect:/viewPosts";

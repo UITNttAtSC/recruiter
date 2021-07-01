@@ -24,6 +24,7 @@ public class EndUser {
 
 	private String firstName;
 	private String lastName;
+	private String endUserName;
 
 	private String gender;
 	private Integer age;
@@ -42,6 +43,14 @@ public class EndUser {
 	@OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private User user;
+
+	public String getEndUserName() {
+		return endUserName;
+	}
+
+	public void setEndUserName(String endUserName) {
+		this.endUserName = endUserName;
+	}
 
 	public Long getEndUserId() {
 		return endUserId;
