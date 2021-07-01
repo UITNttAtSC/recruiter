@@ -25,8 +25,8 @@ public class HomeController {
 
     @RequestMapping( {"/", "/index"} )
     private String index(Model model){
-
         List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAt(true);
+
         
         Map<String, Long> counting = jobPostService.findAllByStatus(true).stream().collect(
                 Collectors.groupingBy(JobPost::getJobCategory, Collectors.counting()));

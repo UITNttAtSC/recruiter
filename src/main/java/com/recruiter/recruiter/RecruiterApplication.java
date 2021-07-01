@@ -35,16 +35,17 @@ public class RecruiterApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		
 		
+		
 		/*
 		 * User user=new User();
 		 * 
-		 * user.setUsername("moemoe");
+		 * user.setUsername("admin");
 		 * user.setPassword(SecurityUtility.passwordEncoder().encode("1234"));
 		 * user.setEmail("kyawkhaing29581@gmail.com");
 		 * 
 		 * 
 		 * Set<UserRole> userRoles=new HashSet<>(); Role role=new Role();
-		 * role.setRoleId(1l); role.setName("ROLE_END_USER");
+		 * role.setRoleId(3l); role.setName("ROLE_ADMIN");
 		 * 
 		 * userRoles.add(new UserRole(user, role));
 		 * 
@@ -54,6 +55,7 @@ public class RecruiterApplication implements CommandLineRunner {
 		 * 
 		 * endUserService.save(endUser);
 		 */
+		 
 		 
 	}
 
