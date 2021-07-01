@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/fonts/**",
 				"/",
 				"/index",
+				"/about",
 				"/userRegister",
 				"/searchPostWithCategoryAndLocation",
 				"/imags/**",
