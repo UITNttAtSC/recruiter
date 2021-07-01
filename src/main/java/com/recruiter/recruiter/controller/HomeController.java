@@ -28,7 +28,7 @@ public class HomeController {
 
         List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAt(true);
         
-        Map<String, Long> counting = jobPostService.findAll().stream().collect(
+        Map<String, Long> counting = jobPostService.findAllByStatus(true).stream().collect(
                 Collectors.groupingBy(JobPost::getJobCategory, Collectors.counting()));
 
 	   Map<String, Long> finalMapDescendingOrder = new LinkedHashMap<>();
@@ -55,7 +55,7 @@ public class HomeController {
     
     @RequestMapping("/getPostsByCategory/{categoryName}")
     private String getPostsByCategory(@PathVariable("categoryName") String categoryName,Model model){
-        List<JobPost> jobPosts = jobPostService.findByJobCategory(categoryName);
+        List<JobPost> jobPosts = jobPostService.findByJobCategoryAndStatus(categoryName, true);
         
         
       	JobPost post = new JobPost();
@@ -72,7 +72,7 @@ public class HomeController {
     @RequestMapping("/getPostCountByCategory")
     private String getPossCountByCategory(Model model){
         
-    	  Map<String, Long> counting = jobPostService.findAll().stream().collect(
+    	  Map<String, Long> counting = jobPostService.findAllByStatus(true).stream().collect(
                   Collectors.groupingBy(JobPost::getJobCategory, Collectors.counting()));
 
   	   Map<String, Long> finalMapDescendingOrder = new LinkedHashMap<>();
@@ -100,13 +100,13 @@ public class HomeController {
     		@ModelAttribute("jobLocation") String jobLocation,
     		@ModelAttribute("jobName") String jobName){
        
-    	List<JobPost> jobList = jobPostService.findAll();
+    	List<JobPost> jobList = jobPostService.findAllByStatus(true);
     	
        List<JobPost> filteredPostList = jobList;
   
          if(jobName != null && (!jobName.equals(""))) {
 			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
-			  jobPostList.getJobTitle().equals(jobName)).collect(Collectors.toList());
+			  jobPostList.getJobTitle().contains(jobName)).collect(Collectors.toList());
 		  }
 		  
 		  if(jobCategory != null && (!jobCategory.equals("")) && (!jobCategory.equals("allJobCategory"))) {

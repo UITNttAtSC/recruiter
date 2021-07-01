@@ -33,7 +33,7 @@ public class PaymentController {
     @RequestMapping("/payment")
     public String payment(Model model, Principal principal) {
         // Payment payment = new Payment();
-        User user = userService.findByUsername("gid");
+        User user = userService.findByUsername(principal.getName());
         Company company = companyService.findByUser_Id(user.getUserId());
         Payment payment = paymentService.findByCompany_companyId(company.getCompanyId());
         if(payment == null){
@@ -46,7 +46,7 @@ public class PaymentController {
     @PostMapping("/savePayment")
     public String savePayment(@ModelAttribute("payment") Payment payment, Principal principal){
         // User user = userService.findByUsername(principal.getName());
-        User user = userService.findByUsername("gid");
+        User user = userService.findByUsername(principal.getName());
         Company company = companyService.findByUser_Id(user.getUserId());
         Payment currentPayment = paymentService.findByCompany_companyId(company.getCompanyId());
         

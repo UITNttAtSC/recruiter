@@ -14,8 +14,10 @@ public interface JobPostRepository extends PagingAndSortingRepository<JobPost, L
     List<JobPost> findFirst5ByStatusOrderByUpdatedAt(boolean status);
 
     List<JobPost> findAllByStatusOrderByUpdatedAtDesc(boolean status);
+
+    List<JobPost> findAllByStatus(boolean status);
     
-    List<JobPost> findByJobCategory(String jobCategory);
+    List<JobPost> findByJobCategoryAndStatus(String jobCategory, boolean status);
 
     Page<JobPost> findAllByStatusOrderByUpdatedAt(boolean status, Pageable paging);
 

@@ -130,8 +130,9 @@ public class JobPostController {
     @RequestMapping("/viewPosts")
     private String viewPosts(@RequestParam(defaultValue = "1") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, Model model, Principal principal){
 
-        Company company = companyService.findByCompanyName("gid");
-        // Company company = companyService.findByCompanyName(principal.getName());
+        // Company company = companyService.findByCompanyName("gid");
+        User user = userService.findByUsername(principal.getName());
+        Company company = companyService.findByUser_Id(user.getUserId());
         Page<JobPost> jobPost = new PageImpl<>(company.getPost(), PageRequest.of(pageNo-1, pageSize), company.getPost().size());
         model.addAttribute("listOfPosts", jobPost.getContent());
         model.addAttribute("noOfPosts", jobPost.getContent().size());
@@ -140,6 +141,8 @@ public class JobPostController {
         model.addAttribute("hasNext", jobPost.hasNext());
         model.addAttribute("hasPrevious", jobPost.hasPrevious());
         model.addAttribute("url", "viewPosts");
+        model.addAttribute("jobCategoriesList", jobCategoriesList);
+        model.addAttribute("jobLocationsList", jobLocationsList);
         return "uploaded-post";
     }
     
@@ -155,14 +158,14 @@ public class JobPostController {
 		 * User user = userService.findByUsername(principal.getName()); Company company
 		 * = companyService.findByUser(user);
 		 */
-          List<JobPost> jobList = postService.findAll();
+          List<JobPost> jobList = postService.findAllByStatus(true);
     	
     	  List<JobPost> filteredPostList = jobList;
    
 		  
 		  if(filterPost.getJobTitle() != null && (!filterPost.getJobTitle().equals(""))) {
 			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
-			  jobPostList.getJobTitle().equals(filterPost.getJobTitle())).collect(Collectors.toList());
+			  jobPostList.getJobTitle().contains(filterPost.getJobTitle())).collect(Collectors.toList());
 		  }
 		  
 		  if(filterPost.getJobCategory() != null && (!filterPost.getJobCategory().equals("")) && (!filterPost.getJobCategory().equals("allJobCategory"))) {

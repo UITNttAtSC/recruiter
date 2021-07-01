@@ -13,11 +13,13 @@ public interface JobPostService {
 
     Page<JobPost> findAllByStatusOrderByUpdatedAt(Integer pageNo, Integer pageSize, boolean status);
 
+    List<JobPost> findAllByStatus(boolean status);
+
     JobPost save(JobPost post);
 
     JobPost findById(Long id);
 
     void removeById(Long id);
     
-    List<JobPost> findByJobCategory(String jobCategory);
+    List<JobPost> findByJobCategoryAndStatus(String jobCategory, boolean status);
 }
