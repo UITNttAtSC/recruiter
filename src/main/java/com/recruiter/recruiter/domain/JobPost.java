@@ -1,14 +1,19 @@
 package com.recruiter.recruiter.domain;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -17,360 +22,262 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.recruiter.recruiter.common.JobExpireStatus;
+
 @Entity
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "jobpost")
 public class JobPost {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long postId;
 
-    private String jobTitle;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long postId;
 
-    private String jobCategory;
+	private String jobTitle;
 
-    private String jobLevel;
+	private String jobCategory;
 
-    private String jobType;
+	private String jobLevel;
 
-    private Integer minSalary;
+	private String jobType;
 
-    private Integer maxSalary;
+	private Integer minSalary;
 
-    private String ageLimit;
+	private Integer maxSalary;
 
-    private Integer employeeLimit;
+	private String ageLimit;
 
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date deadline;
+	private Integer employeeLimit;
 
-    private String jobHour;
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date deadline;
 
-    private String jobDay;
+	private String jobHour;
 
-    private String jobLocation;
+	private String jobDay;
 
-    @Column(columnDefinition = "text")
-    private String jobDescription;
+	private String jobLocation;
 
-    @Column(columnDefinition = "text")
-    private String jobRequirement;
+	@Column(columnDefinition = "text")
+	private String jobDescription;
 
-    @Column(columnDefinition = "text")
-    private String jobBenefit;
+	@Column(columnDefinition = "text")
+	private String jobRequirement;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false, updatable = false)
-    @CreatedDate
-    private Date createdAt;
+	@Column(columnDefinition = "text")
+	private String jobBenefit;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private Date updatedAt;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "created_at", nullable = false, updatable = false)
+	@CreatedDate
+	private Date createdAt;
 
-    private boolean status = false;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "updated_at")
+	@LastModifiedDate
+	private Date updatedAt;
+//	@Enumerated(EnumType.ORDINAL)
+//	private JobStatus jobStatus;
 
-    @ManyToOne
-    private Company company;
+	@Enumerated(EnumType.ORDINAL)
+	private JobExpireStatus expireStatus;
 
-    @ManyToOne
-    private Payment payment;
+	private boolean status = false;
 
-    /**
-     * @return Long return the postId
-     */
-    public Long getPostId() {
-        return postId;
-    }
+	@ManyToOne
+	private Company company;
 
-    /**
-     * @param postId the postId to set
-     */
-    public void setPostId(Long postId) {
-        this.postId = postId;
-    }
+	@ManyToOne
+	private Payment payment;
 
-    /**
-     * @return String return the jobTitle
-     */
-    public String getJobTitle() {
-        return jobTitle;
-    }
+	private LocalDateTime approvedDate;
 
-    /**
-     * @param jobTitle the jobTitle to set
-     */
-    public void setJobTitle(String jobTitle) {
-        this.jobTitle = jobTitle;
-    }
+	public Long getPostId() {
+		return postId;
+	}
 
-    /**
-     * @return String return the jobLevel
-     */
-    public String getJobLevel() {
-        return jobLevel;
-    }
+	public void setPostId(Long postId) {
+		this.postId = postId;
+	}
 
-    /**
-     * @param jobLevel the jobLevel to set
-     */
-    public void setJobLevel(String jobLevel) {
-        this.jobLevel = jobLevel;
-    }
+	public String getJobTitle() {
+		return jobTitle;
+	}
 
-    /**
-     * @return String return the jobType
-     */
-    public String getJobType() {
-        return jobType;
-    }
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
 
-    /**
-     * @param jobType the jobType to set
-     */
-    public void setJobType(String jobType) {
-        this.jobType = jobType;
-    }
+	public String getJobCategory() {
+		return jobCategory;
+	}
 
-    /**
-     * @return Integer return the minSalary
-     */
-    public Integer getMinSalary() {
-        return minSalary;
-    }
+	public void setJobCategory(String jobCategory) {
+		this.jobCategory = jobCategory;
+	}
 
-    /**
-     * @param minSalary the minSalary to set
-     */
-    public void setMinSalary(Integer minSalary) {
-        this.minSalary = minSalary;
-    }
+	public String getJobLevel() {
+		return jobLevel;
+	}
 
-    /**
-     * @return Integer return the maxSalary
-     */
-    public Integer getMaxSalary() {
-        return maxSalary;
-    }
+	public void setJobLevel(String jobLevel) {
+		this.jobLevel = jobLevel;
+	}
 
-    /**
-     * @param maxSalary the maxSalary to set
-     */
-    public void setMaxSalary(Integer maxSalary) {
-        this.maxSalary = maxSalary;
-    }
+	public String getJobType() {
+		return jobType;
+	}
 
-    /**
-     * @return String return the ageLimit
-     */
-    public String getAgeLimit() {
-        return ageLimit;
-    }
+	public void setJobType(String jobType) {
+		this.jobType = jobType;
+	}
 
-    /**
-     * @param ageLimit the ageLimit to set
-     */
-    public void setAgeLimit(String ageLimit) {
-        this.ageLimit = ageLimit;
-    }
+	public Integer getMinSalary() {
+		return minSalary;
+	}
 
-    /**
-     * @return Integer return the employeeLimit
-     */
-    public Integer getEmployeeLimit() {
-        return employeeLimit;
-    }
+	public void setMinSalary(Integer minSalary) {
+		this.minSalary = minSalary;
+	}
 
-    /**
-     * @param employeeLimit the employeeLimit to set
-     */
-    public void setEmployeeLimit(Integer employeeLimit) {
-        this.employeeLimit = employeeLimit;
-    }
+	public Integer getMaxSalary() {
+		return maxSalary;
+	}
 
-    /**
-     * @return Date return the deadline
-     */
-    public Date getDeadline() {
-        return deadline;
-    }
+	public void setMaxSalary(Integer maxSalary) {
+		this.maxSalary = maxSalary;
+	}
 
-    /**
-     * @param deadline the deadline to set
-     */
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
-    }
+	public String getAgeLimit() {
+		return ageLimit;
+	}
 
-    /**
-     * @return String return the jobHour
-     */
-    public String getJobHour() {
-        return jobHour;
-    }
+	public void setAgeLimit(String ageLimit) {
+		this.ageLimit = ageLimit;
+	}
 
-    /**
-     * @param jobHour the jobHour to set
-     */
-    public void setJobHour(String jobHour) {
-        this.jobHour = jobHour;
-    }
+	public Integer getEmployeeLimit() {
+		return employeeLimit;
+	}
 
-    /**
-     * @return String return the jobDay
-     */
-    public String getJobDay() {
-        return jobDay;
-    }
+	public void setEmployeeLimit(Integer employeeLimit) {
+		this.employeeLimit = employeeLimit;
+	}
 
-    /**
-     * @param jobDay the jobDay to set
-     */
-    public void setJobDay(String jobDay) {
-        this.jobDay = jobDay;
-    }
+	public Date getDeadline() {
+		return deadline;
+	}
 
-    /**
-     * @return String return the jobLocation
-     */
-    public String getJobLocation() {
-        return jobLocation;
-    }
+	public void setDeadline(Date deadline) {
+		this.deadline = deadline;
+	}
 
-    /**
-     * @param jobLocation the jobLocation to set
-     */
-    public void setJobLocation(String jobLocation) {
-        this.jobLocation = jobLocation;
-    }
+	public String getJobHour() {
+		return jobHour;
+	}
 
-    /**
-     * @return String return the jobDescription
-     */
-    public String getJobDescription() {
-        return jobDescription;
-    }
+	public void setJobHour(String jobHour) {
+		this.jobHour = jobHour;
+	}
 
-    /**
-     * @param jobDescription the jobDescription to set
-     */
-    public void setJobDescription(String jobDescription) {
-        this.jobDescription = jobDescription;
-    }
+	public String getJobDay() {
+		return jobDay;
+	}
 
-    /**
-     * @return String return the jobRequirement
-     */
-    public String getJobRequirement() {
-        return jobRequirement;
-    }
+	public void setJobDay(String jobDay) {
+		this.jobDay = jobDay;
+	}
 
-    /**
-     * @param jobRequirement the jobRequirement to set
-     */
-    public void setJobRequirement(String jobRequirement) {
-        this.jobRequirement = jobRequirement;
-    }
+	public String getJobLocation() {
+		return jobLocation;
+	}
 
-    /**
-     * @return String return the jobBenefit
-     */
-    public String getJobBenefit() {
-        return jobBenefit;
-    }
+	public void setJobLocation(String jobLocation) {
+		this.jobLocation = jobLocation;
+	}
 
-    /**
-     * @param jobBenefit the jobBenefit to set
-     */
-    public void setJobBenefit(String jobBenefit) {
-        this.jobBenefit = jobBenefit;
-    }
+	public String getJobDescription() {
+		return jobDescription;
+	}
 
-    /**
-     * @return Date return the createdAt
-     */
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+	public void setJobDescription(String jobDescription) {
+		this.jobDescription = jobDescription;
+	}
 
-    /**
-     * @param createdAt the createdAt to set
-     */
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public String getJobRequirement() {
+		return jobRequirement;
+	}
 
-    /**
-     * @return Date return the updatedAt
-     */
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
+	public void setJobRequirement(String jobRequirement) {
+		this.jobRequirement = jobRequirement;
+	}
 
-    /**
-     * @param updatedAt the updatedAt to set
-     */
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public String getJobBenefit() {
+		return jobBenefit;
+	}
 
-    /**
-     * @return boolean return the status
-     */
-    public boolean isStatus() {
-        return status;
-    }
+	public void setJobBenefit(String jobBenefit) {
+		this.jobBenefit = jobBenefit;
+	}
 
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 
-    /**
-     * @return Company return the company
-     */
-    public Company getCompany() {
-        return company;
-    }
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    /**
-     * @param company the company to set
-     */
-    public void setCompany(Company company) {
-        this.company = company;
-    }
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
 
-    /**
-     * @return String return the jobCategory
-     */
-    public String getJobCategory() {
-        return jobCategory;
-    }
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
-    /**
-     * @param jobCategory the jobCategory to set
-     */
-    public void setJobCategory(String jobCategory) {
-        this.jobCategory = jobCategory;
-    }
+	public JobExpireStatus getExpireStatus() {
+		return expireStatus;
+	}
 
+	public void setExpireStatus(JobExpireStatus expireStatus) {
+		this.expireStatus = expireStatus;
+	}
 
-    /**
-     * @return Payment return the payment
-     */
-    public Payment getPayment() {
-        return payment;
-    }
+	public boolean isStatus() {
+		return status;
+	}
 
-    /**
-     * @param payment the payment to set
-     */
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
+	}
+
+	public LocalDateTime getApprovedDate() {
+		return approvedDate;
+	}
+
+	public void setApprovedDate(LocalDateTime approvedDate) {
+		this.approvedDate = approvedDate;
+	}
+	
+	
+	
 
 }

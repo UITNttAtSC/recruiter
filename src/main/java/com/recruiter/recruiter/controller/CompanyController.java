@@ -47,7 +47,7 @@ public class CompanyController {
     private String companyAccount(Model model, Principal principal){
         // User user = userService.findByUsername(principal.getName());
         User user = userService.findByUsername("gid");
-        Company company = companyService.findByUser_Id(user.getId());
+        Company company = companyService.findByUser_Id(user.getUserId());
         model.addAttribute("company", company);
         model.addAttribute("user", user);
         model.addAttribute("action", "update");
@@ -66,7 +66,7 @@ public class CompanyController {
         
         byte[] bytes = companyLogo.getBytes();
         
-        String name = "logo"+ company.getCompanyName() + ".png";
+        String name = "logo"+ company.getUser().getUsername() + ".png";
         
         BufferedOutputStream stream = new BufferedOutputStream(
         new FileOutputStream(new File("src/main/resources/static/image/companyLogo/" + name)));
@@ -75,7 +75,7 @@ public class CompanyController {
         
         int i = 0;
         for(MultipartFile companyFeaturePhoto : companyFeaturePhotos){
-            String fileName = "featurePhoto"+ company.getCompanyName() + i + ".png";
+            String fileName = "featurePhoto"+ company.getUser().getUsername() + i + ".png";
             byte[] bytes1 = companyFeaturePhoto.getBytes();
             stream = new BufferedOutputStream(
                 new FileOutputStream(new File("src/main/resources/static/image/companyFeaturePhoto/" + fileName)));
@@ -84,7 +84,7 @@ public class CompanyController {
         }
         stream.close();
         
-        if (companyService.findByCompanyName(company.getCompanyName()) != null && action.equals("create")) {
+        if (companyService.findByCompanyName(company.getUser().getUsername()) != null && action.equals("create")) {
             model.addAttribute("companyNameExists", true);
             
             return "company_register";
@@ -93,8 +93,8 @@ public class CompanyController {
         User user = userService.findByEmail(currentUser.getEmail());
         user.setPassword(password);
 
-        Company currentCompany = companyService.findByUser_Id(user.getId());
-        currentCompany.setCompanyName(company.getCompanyName());
+        Company currentCompany = companyService.findByUser_Id(user.getUserId());
+        currentCompany.setCompanyName(company.getUser().getUsername());
         currentCompany.setCompanyPhone(company.getCompanyPhone());
         currentCompany.setCompanyWebsite(company.getCompanyWebsite());
         currentCompany.setCompanyType(company.getCompanyType());

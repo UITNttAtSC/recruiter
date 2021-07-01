@@ -28,6 +28,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "companyId", nullable = false, updatable = false)
     private Long companyId;
+    private String companyName;
     private String companyPhone;
     private String companyWebsite;
     private String companyType;
@@ -50,7 +51,7 @@ public class Company {
     
 
 	@OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
-	@JoinColumn(nullable = false,name = "user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
     
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
@@ -222,6 +223,20 @@ public class Company {
      */
     public void setCompanyFeaturePhotos(List<MultipartFile> companyFeaturePhotos) {
         this.companyFeaturePhotos = companyFeaturePhotos;
+    }
+	
+    /**
+    * @return String return the companyName
+    */
+    public String getCompanyName() {
+        return companyName;
+    }
+    
+    /**
+    * @param companyName the companyName to set
+    */
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
 }

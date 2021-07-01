@@ -1,21 +1,15 @@
 package com.recruiter.recruiter.controller;
 
 import java.security.Principal;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import java.util.stream.Collectors;
 import java.util.concurrent.TimeUnit;
-
-import com.recruiter.recruiter.domain.Company;
-import com.recruiter.recruiter.domain.JobPost;
-import com.recruiter.recruiter.domain.Payment;
-import com.recruiter.recruiter.service.CompanyService;
-import com.recruiter.recruiter.service.JobPostService;
-import com.recruiter.recruiter.service.PaymentService;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -108,9 +102,10 @@ public class JobPostController {
 
         return "post_job";
     }
-    
+   
     @PostMapping("/addPost")
     private String addPost(Principal principal,@ModelAttribute("post") JobPost post) {
+    	
     	
         User user = userService.findByUsername(principal.getName());
         Company company = companyService.findByUser(user);
@@ -220,7 +215,7 @@ public class JobPostController {
     
     @PostMapping("/jobPostFilterByDate")
     private String jobPostFilterByDate(@ModelAttribute(value = "searchPostsWithDate") String searchPostsWithDate,
-    		Model model, Principal principal){
+    		Model model, Principal principal) throws Exception{
     	
     	User user = userService.findByUsername(principal.getName());
         Company company = companyService.findByUser(user);
@@ -231,14 +226,18 @@ public class JobPostController {
          
          Integer day = Integer.parseInt(searchPostsWithDate);
          
-         LocalDate today = LocalDate.now();  
-         LocalDate searchWithDate = today.minusDays(day);
          
-         Date date = Date.from(searchWithDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+			/*
+			 * LocalDate today = LocalDate.now(); LocalDate searchWithDate =
+			 * today.minusDays(day);
+			 */
+         Date date=new SimpleDateFormat("yyyy-MM-dd").parse(searchPostsWithDate);
+         
+  //      Date date = Date.from(searchPostsWithDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     	   
          if(searchPostsWithDate != null && (!searchPostsWithDate.equals(""))) {
 			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
-			  jobPostList.getCreatedAt().after(date) ).collect(Collectors.toList());
+			  jobPostList.getCreatedAt().after(date)).collect(Collectors.toList());
 			  System.out.println(filteredPostList);
 			  System.out.println("Before loop");
 		  }
@@ -276,7 +275,7 @@ public class JobPostController {
     private String jobPostDetails(@PathVariable("jobPostId") Long jobPostId, Model model){
         JobPost jobPost = postService.findById(jobPostId);
         
-        Long createdAt = jobPost.getCreatedAt().getTime();
+        Long createdAt = Timestamp.valueOf(jobPost.getCreatedAt().toString()).getTime();
         
         Date currentDate = new Date();
         Long currentTime = currentDate.getTime();
