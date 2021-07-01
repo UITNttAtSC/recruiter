@@ -31,7 +31,7 @@
                                 <label for="jobCategory">Job Category</label><br><br>
                                 <select th:name="jobCategory" id="jobCategory" class="form-control" required>
                                     <option value="allJobCategory" selected="selected">Search by Job Category</option>
-                                    <option th:each="jobCategory : ${jobCategoriesList}" th:text="${jobCategory}" th:selected="(${post.jobCategory}==${jobCategory})"></option>
+                                    <option th:each="jobCategory : ${jobCategoriesList}" th:text="${jobCategory}" ></option>
                                 </select>
                           </div>
                           <br>
@@ -40,10 +40,10 @@
                                 <label for="jobLevel">Job Level</label><br><br>
                                 <select th:name="jobLevel" id="jobLevel" class="form-control" required>
                                     <option value="allJobLevel" selected="selected">Search by Job Level</option>
-                                    <option th:selected="*{post.jobLevel=='Entry Level'}">Entry Level</option>
-                                    <option th:selected="*{post.jobLevel=='Manager'}">Manager</option>
-                                    <option th:selected="*{post.jobLevel=='Experienced Non-Manager'}">Experienced Non-Manager</option>
-                                    <option th:selected="*{post.jobLevel=='Director and above'}">Director and above</option>
+                                    <option >Entry Level</option>
+                                    <option >Manager</option>
+                                    <option >Experienced Non-Manager</option>
+                                    <option >Director and above</option>
                                 </select>
                             </div>
                             <br>
@@ -80,7 +80,7 @@
                             <br>
                              <div class="form-group">
                                 <label for="salary">Minimum Salary</label><br><br>
-                                    <input type="text" class="form-control mr-3" id="minSalary" th:name="minSalary" th:value="${post.minSalary}" placeholder="Min Salary (e.g. $5,000)">
+                                    <input type="text" class="form-control mr-3" id="minSalary" th:name="minSalary"  placeholder="Min Salary (e.g. $5,000)">
                             </div>
 						    <br>
 						    
