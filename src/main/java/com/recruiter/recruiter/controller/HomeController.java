@@ -26,7 +26,7 @@ public class HomeController {
     @RequestMapping( {"/", "/index"} )
     private String index(Model model){
 
-        List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAtDesc(true);
+        List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAt(true);
         
         Map<String, Long> counting = jobPostService.findAll().stream().collect(
                 Collectors.groupingBy(JobPost::getJobCategory, Collectors.counting()));
@@ -46,7 +46,6 @@ public class HomeController {
         model.addAttribute("jobLocationsList", JobPostController.jobLocationsList);
         model.addAttribute("jobCategoriesList", JobPostController.jobCategoriesList);
         
-        List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAt(true);
         model.addAttribute("listOfPosts", jobPosts);
         model.addAttribute("mostAppliedJobLists", mostAppliedJobLists);
         return "index";

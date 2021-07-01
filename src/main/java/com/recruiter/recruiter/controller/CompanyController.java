@@ -97,7 +97,7 @@ public class CompanyController {
         User user = userService.findByEmail(currentUser.getEmail());
         user.setPassword(password);
 
-        Company currentCompany = companyService.findByUser_Id(user.getId());
+        Company currentCompany = companyService.findByUser_Id(user.getUserId());
         currentCompany.setCompanyName(company.getCompanyName());
         currentCompany.setCompanyPhone(company.getCompanyPhone());
         currentCompany.setCompanyWebsite(company.getCompanyWebsite());

@@ -34,7 +34,7 @@ public class PaymentController {
     public String payment(Model model, Principal principal) {
         // Payment payment = new Payment();
         User user = userService.findByUsername("gid");
-        Company company = companyService.findByUser_Id(user.getId());
+        Company company = companyService.findByUser_Id(user.getUserId());
         Payment payment = paymentService.findByCompany_companyId(company.getCompanyId());
         if(payment == null){
             payment = new Payment();
@@ -47,7 +47,7 @@ public class PaymentController {
     public String savePayment(@ModelAttribute("payment") Payment payment, Principal principal){
         // User user = userService.findByUsername(principal.getName());
         User user = userService.findByUsername("gid");
-        Company company = companyService.findByUser_Id(user.getId());
+        Company company = companyService.findByUser_Id(user.getUserId());
         Payment currentPayment = paymentService.findByCompany_companyId(company.getCompanyId());
         
         if(currentPayment != null){
