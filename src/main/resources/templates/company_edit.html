@@ -10,7 +10,6 @@
     <section id="post_job">
         <div class="vertical-space-100"></div>
         <div class="vertical-space-101"></div>
-        <input type="text" name="companyId" th:value="${company.companyId}">
         <div class="container">
             <div class="list-box">
                 <a href="#" class="font-color-black margin-right">Job </a> > <a href="#" class="font-color-orange margin-left"> Sign Up</a>
@@ -19,31 +18,63 @@
             <div class="bg-info text-center" style="height: 50px;" th:if="${companyNameExists}">
                 <span class="text-danger h5">Company Name already exists</span>
             </div>
+            <div class="alert alert-danger" th:if="${incorrectPassword}">
+				<strong>Incorrect Password!</strong>
+				 Please enter the correct password for the current user.
+			</div>
+	       <div class="alert alert-danger" th:if="${usernameExists}">
+				<strong>Username already exists!</strong>
+				 Please enter the different name for the current user.
+		  </div>	
+		  <div class="alert alert-danger" th:if="${emailExists}">
+			   <strong>Email already exists!</strong>
+			    Please enter the different email for the current user.
+		 </div>
+			<div class="alert alert-succss" th:if="${updateSuccess}">
+				<strong>Update Success!</strong>
+			</div>
             <div class="job-post-box">
                 <form th:action="@{/newCompany}" method="post"
                 enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="CompanyName">Company Name</label>
-                    <input type="text" class="form-control" id="exampleInputName" placeholder="Full name of company"
-                    th:value="${company.companyName}" name="companyName" required />
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="CompanyName">Company Name</label>
+                            <input type="text" class="form-control" id="exampleInputName" placeholder="Full name of company"
+                            th:value="${company.companyName}" name="companyName" required />
+                        </div>
+                    </div>
+                    <div class="col">
+                        
+                            <div class="form-group">
+                                <label for="email">Company Email</label>
+                                <input type="text" class="form-control" id="email" 
+                                placeholder="Company Email" th:value="${user.email}" th:name="email" />
+                            </div>
+            
+                    </div>
                 </div>
                 
                 <div class="row">
-                    <div class="col-lg-6 col-md-6">
-                        <div class="form-group">
-                            <label for="email">Company Email</label>
-                            <input type="text" class="form-control" id="email" 
-                            placeholder="Company Email" th:value="${user.email}" th:name="email" readonly />
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6">
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password"
-                            placeholder="Password" th:value="${user.password}" th:name="password" required />
-                        </div>
-                    </div>
-                </div>
+					<div class="col-lg-4 col-md-4">
+						<div class="form-group">
+							<label for="currentPassword">Current Password</label>
+							<input type="password" class="form-control" id="currentPassword" name="password" />
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4">
+					   <div class="form-group">
+							<label for="txtNewPassword">New Password</label>
+							<input type="password" class="form-control" id="txtNewPassword" name="newPassword" />
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4">
+					   <div class="form-group">
+							<label for="txtConfirmPassword">Confirm Password</label>
+							<input type="password" class="form-control" id="txtConfirmPassword" name="newPassword" />
+						</div>
+					</div>
+				</div>
                 
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
