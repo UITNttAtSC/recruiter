@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		{
 				"/css/**",
 				"/js/**",
-				"/font-awesome-4.7.0",
+				"/font-awesome-4.7.0/**",
 				"/image/**",
 				"/applyfiles/**",
 				"/newUser",
