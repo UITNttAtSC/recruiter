@@ -24,3 +24,4 @@ public interface PasswordResetTokenRepository extends JpaRepository<PasswordRese
 	
 
 }
+

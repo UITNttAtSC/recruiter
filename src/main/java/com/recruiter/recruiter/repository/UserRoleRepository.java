@@ -7,3 +7,4 @@ import com.recruiter.recruiter.domain.security.UserRole;
 public interface UserRoleRepository extends CrudRepository<UserRole, Long>{
 
 }
+

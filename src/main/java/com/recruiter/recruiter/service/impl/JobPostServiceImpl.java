@@ -49,9 +49,16 @@ public class JobPostServiceImpl implements JobPostService{
         return postRepository.findAllByStatusOrderByUpdatedAt(status, paging);
     }
 
-	@Override
-	public List<JobPost> findByJobCategory(String jobCategory) {
-		return postRepository.findByJobCategory(jobCategory);
-	}
+    @Override
+    public List<JobPost> findByJobCategoryAndStatus(String jobCategory, boolean status) {
+        return postRepository.findByJobCategoryAndStatus(jobCategory, status);
+    }
+
+    @Override
+    public List<JobPost> findAllByStatus(boolean status) {
+        return postRepository.findAllByStatus(status);
+    }
+
+	
     
 }

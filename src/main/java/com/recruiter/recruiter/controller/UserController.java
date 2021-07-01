@@ -164,9 +164,10 @@ public class UserController {
 			if (ur.getRole().getName().equals("ROLE_COMPANY")) {
 				Company company = companyService.findByUser(user);
 				model.addAttribute("company", company);
-				model.addAttribute("username", user.getUsername());
-				model.addAttribute("email", user.getEmail());
-				model.addAttribute("userId", user.getUserId());
+				// model.addAttribute("username", user.getUsername());
+				// model.addAttribute("email", user.getEmail());
+				// model.addAttribute("userId", user.getUserId());
+				model.addAttribute("user", user);
 				return "company_edit";
 			}
 		}

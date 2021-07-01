@@ -9,34 +9,28 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Jobz-post-job</title>
+<title>Recruiter</title>
 
-<script th:src="@{/js/4n2NXumNjtg5LPp6VXLlDicTUfA.js}"></script>
 <link rel="apple-touch-icon" th:href="@{/images/apple-touch-icon.html}">
 <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.html}" />
 
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    
+    <link th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    
+    <link th:href="@{/css/matrialize.css}" rel="stylesheet">
+    
+    <link th:href="@{/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}">
+    
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 
-<link th:href="@{/css/matrialize.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/animations.css}">
 
-<link th:href="@{/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
-
-<link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}">
-
-<link rel="stylesheet" th:href="@{/css/all.min.css}">
-
-<link rel="stylesheet" th:href="@{/css/mdb.min.css}">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/custom-radio-button.css}">
 
 <link rel="stylesheet" th:href="@{/css/mycss.css}">
-
- <link rel="stylesheet" th:href="@{/css/animations.css}">
-
- <link rel="stylesheet" th:href="@{/css/custom-radio-button.css}">
- 
 
 </head>
 <body>
@@ -104,14 +98,14 @@
 					            	<li><a sec:authorize="isAnonymous()" th:href="@{/login}">Log In</a></li>
 					            	<li><a sec:authorize="isAnonymous()" th:href="@{/userRegister}">Account Create</a></li>
 						            <li><a sec:authorize="isAuthenticated()" th:href="@{/myProfile}">My Profile</a></li>
+						            <li><a th:href="@{/about}">About Recruiter</a></li>
 						             <li><a sec:authorize="isAuthenticated()" th:href="@{/logout}">LogOut</a></li>
 						             <li><a sec:authorize="isAuthenticated()" th:href="@{/updateUser}">Edit</a></li>
-									<li class="dropdown ">
+									<li class="dropdown" sec:authorize="hasAnyAuthority('ROLE_COMPANY')">
                                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="fa fa-building fa-2x" aria-hidden="true"></i>
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a href="job_category.html">Edit Profile</a></li>
                                             <li><a th:href="@{/viewPosts}">View Uploaded Posts</a></li>
                                         </ul>
                                     </li>
@@ -120,9 +114,11 @@
                                             <span class="caret"></span>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a th:href="@{/signup}">Sign Up</a></li>
+                                            <li><a th:href="@{/newUser}">Sign Up</a></li>
                                             <li><a th:href="@{/login}">LogIn</a></li>
-                                            <li><a th:href="@{/companyAccount}">My Account</a></li>
+                                            <li><a sec:authorize="hasAnyAuthority('ROLE_COMPANY')" th:href="@{/companyAccount}">My Account</a></li>
+                                            <li><a sec:authorize="hasAnyAuthority('ROLE_END_USER')" th:href="@{/updateUser}">My Account</a></li>
+                                            <li><a sec:authorize="hasAnyAuthority('ROLE_COMPANY')" th:href="@{/payment}">My Payment</a></li>
                                         </ul>
                                     </li>
 								</ul>
@@ -229,9 +225,7 @@
 			<div class="row">
 				<div class="col-lg-4 col-md-6 vertical-space-2">
 					<h5>About Us</h5>
-					<p class="paregraf">Tristique velit phasellus sed auctor leo
-						eros luctus nibh fermentu ad impediet rhonus dolor habitant purus
-						velit aliquet donecurna ut in turpis faucibus</p>
+					<p class="paregraf">Students of UIT(University of Information Technology) developed together.</p>
 					<a href="#"> <i class="fa fa-facebook social-icon"></i></a> <a
 						href="#"> <i class="fa fa-twitter social-icon"></i></a> <a
 						href="#"> <i class="fa fa-pinterest-p social-icon"></i></a> <a
@@ -276,6 +270,7 @@
 
 
 	<div th:fragment="common-script">
+		<script th:src="@{/js/4n2NXumNjtg5LPp6VXLlDicTUfA.js}"></script>
 		<script th:src="@{/js/email-decode.min.js}"></script>
 		<script th:src="@{/js/jquery.min.js}"></script>
 		<script th:src="@{/js/popper.min.js}"></script>
@@ -283,7 +278,6 @@
 		<script th:src="@{/owlcarousel/owl.carousel.min.js}"></script>
 		<script th:src="@{/js/jquery-ui.min.js}"></script>
 		<script th:src="@{/js/sweetalert.min.js}"></script>
-		<script th:src="@{/js/mdb.min.js}"></script>
 		<script th:src="@{/js/custom.js}"></script>
 		<script th:src="@{/js/myjs.js}"></script>
 		<script>

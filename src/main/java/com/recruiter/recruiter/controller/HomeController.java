@@ -25,8 +25,10 @@ public class HomeController {
 
     @RequestMapping( {"/", "/index"} )
     private String index(Model model){
+        List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAt(true);
+
         
-        Map<String, Long> counting = jobPostService.findAll().stream().collect(
+        Map<String, Long> counting = jobPostService.findAllByStatus(true).stream().collect(
                 Collectors.groupingBy(JobPost::getJobCategory, Collectors.counting()));
 
 	   Map<String, Long> finalMapDescendingOrder = new LinkedHashMap<>();
@@ -44,7 +46,6 @@ public class HomeController {
         model.addAttribute("jobLocationsList", JobPostController.jobLocationsList);
         model.addAttribute("jobCategoriesList", JobPostController.jobCategoriesList);
         
-        List<JobPost> jobPosts = jobPostService.findFirst5ByStatusOrderByUpdatedAt(true);
         model.addAttribute("listOfPosts", jobPosts);
         model.addAttribute("mostAppliedJobLists", mostAppliedJobLists);
         return "index";
@@ -54,7 +55,7 @@ public class HomeController {
     
     @RequestMapping("/getPostsByCategory/{categoryName}")
     private String getPostsByCategory(@PathVariable("categoryName") String categoryName,Model model){
-        List<JobPost> jobPosts = jobPostService.findByJobCategory(categoryName);
+        List<JobPost> jobPosts = jobPostService.findByJobCategoryAndStatus(categoryName, true);
         
         
       	JobPost post = new JobPost();
@@ -71,7 +72,7 @@ public class HomeController {
     @RequestMapping("/getPostCountByCategory")
     private String getPossCountByCategory(Model model){
         
-    	  Map<String, Long> counting = jobPostService.findAll().stream().collect(
+    	  Map<String, Long> counting = jobPostService.findAllByStatus(true).stream().collect(
                   Collectors.groupingBy(JobPost::getJobCategory, Collectors.counting()));
 
   	   Map<String, Long> finalMapDescendingOrder = new LinkedHashMap<>();
@@ -99,13 +100,13 @@ public class HomeController {
     		@ModelAttribute("jobLocation") String jobLocation,
     		@ModelAttribute("jobName") String jobName){
        
-    	List<JobPost> jobList = jobPostService.findAll();
+    	List<JobPost> jobList = jobPostService.findAllByStatus(true);
     	
        List<JobPost> filteredPostList = jobList;
   
          if(jobName != null && (!jobName.equals(""))) {
 			  filteredPostList = filteredPostList.stream(). filter(jobPostList ->
-			  jobPostList.getJobTitle().equals(jobName)).collect(Collectors.toList());
+			  jobPostList.getJobTitle().contains(jobName)).collect(Collectors.toList());
 		  }
 		  
 		  if(jobCategory != null && (!jobCategory.equals("")) && (!jobCategory.equals("allJobCategory"))) {
@@ -137,6 +138,13 @@ public class HomeController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("hasNext", jobPosts.hasNext());
         model.addAttribute("hasPrevious", jobPosts.hasPrevious());
+        model.addAttribute("url", "allJobs");
         return "uploaded-post";
+    }
+    
+    @RequestMapping("/about")
+    private String about(Model model)
+    {
+    	return "about_us.html";
     }
 }

@@ -33,6 +33,9 @@ public class User implements UserDetails {
 	
 	private String username;
 	
+	@OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
+	private Company company;
+	
 	private String email;
 	
 	private String password;
