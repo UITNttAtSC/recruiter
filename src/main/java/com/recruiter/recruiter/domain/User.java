@@ -40,9 +40,6 @@ public class User implements UserDetails {
 	
 	private String password;
 	
-	@OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
-	private Company company;
-	
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Set<UserRole> userRoles=new HashSet<>();
