@@ -67,7 +67,28 @@ public class CompanyController {
     @PostMapping(value="/newCompany") 
     public String newCompany(@ModelAttribute("company") Company company,
     @ModelAttribute("password") String password,@ModelAttribute("user") User nowUser,
-    @ModelAttribute("newPassword") String newPassword, Model model, Principal principal ) throws Exception { 
+    @ModelAttribute("newPassword") String newPassword, @ModelAttribute("companyLogo") MultipartFile companyLogo,
+    @ModelAttribute("companyFeaturePhotos") List<MultipartFile> companyFeaturePhotos,Model model, Principal principal ) throws Exception { 
+        
+        byte[] bytes = companyLogo.getBytes();
+        
+        String name = "logo"+ company.getCompanyName() + ".png";
+        
+        BufferedOutputStream stream = new BufferedOutputStream(
+        new FileOutputStream(new File("src/main/resources/static/image/companyLogo/" + name)));
+        
+        stream.write(bytes);
+        
+        int i = 0;
+        for(MultipartFile companyFeaturePhoto : companyFeaturePhotos){
+            String fileName = "featurePhoto"+ company.getCompanyName() + i + ".png";
+            byte[] bytes1 = companyFeaturePhoto.getBytes();
+            stream = new BufferedOutputStream(
+                new FileOutputStream(new File("src/main/resources/static/image/companyFeaturePhoto/" + fileName)));
+            i++;
+            stream.write(bytes1);
+        }
+        stream.close();
         
     // company.setUser(nowUser);
     if(nowUser == null) { 
@@ -138,4 +159,6 @@ public class CompanyController {
     return "redirect:/";
     
    }
+
+    
 }
