@@ -1,5 +1,6 @@
 package com.recruiter.recruiter.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -51,11 +52,16 @@ public class JobPost {
 
     private String jobLocation;
 
+    @Column(columnDefinition = "text")
     private String jobDescription;
 
+    @Column(columnDefinition = "text")
     private String jobRequirement;
 
+    @Column(columnDefinition = "text")
     private String jobBenefit;
+
+    private LocalDateTime approvedDate;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -368,6 +374,21 @@ public class JobPost {
      */
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+
+    /**
+     * @return LocalDateTime return the approvedDate
+     */
+    public LocalDateTime getApprovedDate() {
+        return approvedDate;
+    }
+
+    /**
+     * @param approvedDate the approvedDate to set
+     */
+    public void setApprovedDate(LocalDateTime approvedDate) {
+        this.approvedDate = approvedDate;
     }
 
 }

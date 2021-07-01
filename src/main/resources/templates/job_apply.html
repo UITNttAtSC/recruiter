@@ -18,14 +18,13 @@
 		<div class="vertical-space-101"></div>
 		<div class="col-md-6 offset-md-3">
 		
-		<!-- style="background-image: url('https://mdbootstrap.com/img/Photos/new-templates/glassmorphism-article/img5.jpg');" -->
 			<div class="card">
-				<div class="card-header" style="background-color: #F26522;color: white;text-align:center;">
+				<div class="card-header text-white text-center" style="background-color: #F26522;color: white;padding: 30px;">
 					<p>Apply Job</p>
 				</div>
 				<div class="card-body">
 					<form th:action="@{/jobApply/}+${post_id}" method="post" enctype="multipart/form-data" id="applyJob">
-                        <input type="hidden" th:value="${user.id}" name="userId">
+                        <input type="hidden" th:value="${user.userId}" name="userId">
 						<div class="form-outline mb-4">
 							<input type="text" id="userName" class="form-control" name="userName" th:value="${user.username}" disabled="disabled"/>
 							 <label class="form-label" for="userName">Your name</label>
@@ -103,9 +102,7 @@ $('#applyJob').on('submit',function(event){
 function success(){
 	$('#submit-btn').show();
 	$('#loader').hide();
-    swal("Good Luck!", "Email successfully Sent!", "success"), function(){
-        window.location.href = "/viewPosts";
-    };
+    swal("Good Luck!", "Email successfully Sent!", "success");
 }	
 
 

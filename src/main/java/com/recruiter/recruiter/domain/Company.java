@@ -7,9 +7,11 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 import javax.persistence.OneToOne;
@@ -26,13 +28,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "companyId", nullable = false, updatable = false)
     private Long companyId;
-    
     private String companyName;
-    
-    @Column(name = "companyEmail", nullable = false, updatable = false)
-    private String companyEmail;
-    
-    private String companyPassword;
     private String companyPhone;
     private String companyWebsite;
     private String companyType;
@@ -45,13 +41,18 @@ public class Company {
     private MultipartFile companyLogo;
     
     @Transient
-    private MultipartFile companyFeaturePhoto;
+    private List<MultipartFile> companyFeaturePhotos;
     
     @Column(columnDefinition = "text")
     private String companyMission;
     
     @Column(columnDefinition = "text")
     private String companyVision;
+    
+
+	@OneToOne(targetEntity = User.class,fetch = FetchType.EAGER)
+	@JoinColumn(nullable = false,name = "user_id")
+	private User user;
     
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
     @JsonIgnore
@@ -60,37 +61,23 @@ public class Company {
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "company")
     private Payment payment;
     
-    /**
-    * @return Long return the companyId
-    */
-    public Long getCompanyId() {
+    
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Long getCompanyId() {
         return companyId;
     }
     
-    /**
-    * @param companyId the companyId to set
-    */
     public void setCompanyId(Long companyId) {
         this.companyId = companyId;
     }
-    
-    /**
-    * @return String return the companyName
-    */
-    public String getCompanyName() {
-        return companyName;
-    }
-    
-    /**
-    * @param companyName the companyName to set
-    */
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-    
-    /**
-    * @return List<JobPost> return the post
-    */
+
     public List<JobPost> getPost() {
         return post;
     }
@@ -100,35 +87,6 @@ public class Company {
     */
     public void setPost(List<JobPost> post) {
         this.post = post;
-    }
-    
-    
-    /**
-    * @return String return the companyEmail
-    */
-    public String getCompanyEmail() {
-        return companyEmail;
-    }
-    
-    /**
-    * @param companyEmail the companyEmail to set
-    */
-    public void setCompanyEmail(String companyEmail) {
-        this.companyEmail = companyEmail;
-    }
-    
-    /**
-    * @return String return the companyPassword
-    */
-    public String getCompanyPassword() {
-        return companyPassword;
-    }
-    
-    /**
-    * @param companyPassword the companyPassword to set
-    */
-    public void setCompanyPassword(String companyPassword) {
-        this.companyPassword = companyPassword;
     }
     
     /**
@@ -216,20 +174,6 @@ public class Company {
     }
     
     /**
-    * @return MultipartFile return the companyFeaturePhoto
-    */
-    public MultipartFile getCompanyFeaturePhoto() {
-        return companyFeaturePhoto;
-    }
-    
-    /**
-    * @param companyFeaturePhoto the companyFeaturePhoto to set
-    */
-    public void setCompanyFeaturePhoto(MultipartFile companyFeaturePhoto) {
-        this.companyFeaturePhoto = companyFeaturePhoto;
-    }
-    
-    /**
     * @return String return the companyMission
     */
     public String getCompanyMission() {
@@ -270,5 +214,29 @@ public class Company {
     public void setPayment(Payment payment) {
         this.payment = payment;
     }
+    public List<MultipartFile> getCompanyFeaturePhotos() {
+        return companyFeaturePhotos;
+    }
+
+    /**
+     * @param companyFeaturePhotos the companyFeaturePhotos to set
+     */
+    public void setCompanyFeaturePhotos(List<MultipartFile> companyFeaturePhotos) {
+        this.companyFeaturePhotos = companyFeaturePhotos;
+    }
+	
+    /**
+    * @return String return the companyName
+    */
+    public String getCompanyName() {
+        return companyName;
+    }
     
+    /**
+    * @param companyName the companyName to set
+    */
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
 }

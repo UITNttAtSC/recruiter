@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="eng" xmlns:th="http://www.w3.org/1000/xhtml">
+<html lang="eng" xmlns:th="http://www.w3.org/1000/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+
 
 <head th:replace="common/master :: header" />
-
 <body>
     
     <head th:replace="common/master :: common-header" />
@@ -23,17 +23,19 @@
     
     <div id="search-box">
         <div class="container search-box">
-            <form action="#" id="search-box_search_form_3" class="search-box_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between ">
+            <form th:action="@{/searchPostWithCategoryAndLocation}" method="post" id="search-box_search_form_3" class="search-box_search_form d-flex flex-lg-row flex-column align-items-center justify-content-between ">
                 <div class="d-flex flex-row align-items-center justify-content-start inline-block">
                     <span class="large material-icons search">search</span>
-                    <input class="search-box_search_input" placeholder="Search Keyword" required="required" type="search">
-                    <select class="dropdown_item_select search-box_search_input">
-                        <option>Category</option>
-                        <option>Category1</option>
-                        <option>Category2</option>
+                    <input class="search-box_search_input" placeholder="Search Keyword" name="jobName" type="search">
+                    <select class="dropdown_item_select search-box_search_input"  th:name="jobCategory">
+                            <option value="allJobCategory" selected="selected">Search by Job Category</option>
+                            <option th:each="jobCategory : ${jobCategoriesList}" th:text="${jobCategory}"></option>
                     </select>
                     <span class="large material-icons search">place</span>
-                    <input class="search-box_search_input " placeholder="Location" required="required" type="search">
+                    <select class="dropdown_item_select search-box_search_input"  th:name="jobLocation">
+                          <option value="allLocation" selected="selected">Search by Job Location</option>
+                          <option th:each="jobLocation : ${jobLocationsList}" th:text="${jobLocation}"></option>                       
+                    </select>
                 </div>
                 <button type="submit" class="search-box_search_button">Search Jobs</button>
             </form>
@@ -49,81 +51,23 @@
             </p>
             <div class="vertical-space-60"> </div>
             <div class="row">
-                <div class="col-lg-3 col-md-6 max-width-50">
-                    <div class="box background-color-white-light">
-                        <div class="circle">
-                            <img src="imags/icone/service-icone-1.png" alt="">
-                        </div>
-                        <h6>Education & Training</h6>
-                        <a href="#" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span>36 Job Posts</span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 max-width-50">
-                    <div class="box background-color-white-light">
-                        <div class="circle">
-                            <img src="imags/icone/service-icone-2.png" alt="">
-                        </div>
-                        <h6>Sales and Marketing</h6>
-                        <a href="#" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span>72 Job Posts</span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 max-width-50">
-                    <div class="box background-color-white-light">
-                        <div class="circle">
-                            <img src="imags/icone/service-icone-3.png" alt="">
-                        </div>
-                        <h6>Computer Programing</h6>
-                        <a href="#" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span>42 Job Posts</span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 max-width-50">
-                    <div class="box background-color-white-light">
-                        <div class="circle">
-                            <img src="imags/icone/service-icone-4.png" alt="">
-                        </div>
-                        <h6>Customer Support</h6>
-                        <a href="#" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span>18 Job Posts</span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 max-width-50">
-                    <div class="box background-color-white-light">
-                        <div class="circle">
-                            <img src="imags/icone/service-icone-5.png" alt="">
-                        </div>
-                        <h6>Design & Multimedia</h6>
-                        <a href="#" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span>48 Job Posts</span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 max-width-50">
-                    <div class="box background-color-white-light">
-                        <div class="circle">
-                            <img src="imags/icone/service-icone-6.png" alt="">
-                        </div>
-                        <h6>Web Development</h6>
-                        <a href="#" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span>94 Job Posts</span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 max-width-50 margin-left-18">
-                    <div class="box background-color-white-light">
-                        <div class="circle">
-                            <img src="imags/icone/service-icone-7.png" alt="">
-                        </div>
-                        <h6>Medical/Pharma</h6>
-                        <a href="#" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span>64 Job Posts</span></a>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 max-width-50">
-                    <div class="box background-color-white-light ">
-                        <div class="circle">
-                            <img src="imags/icone/service-icone-8.png" alt="">
-                        </div>
-                        <h6>Engineer/Architects</h6>
-                        <a href="#" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span>52 Job Posts</span></a>
-                    </div>
-                </div>
-            </div>
+           
+            
+	                <div class="col-lg-3 col-md-6 max-width-50" th:each="post : ${mostAppliedJobLists}">
+	                    <div class="box background-color-white-light">
+	                        <div class="circle">
+	                            <img src="imags/icone/service-icone-1.png" alt="">
+	                        </div>
+	                        <h6 th:text="${post.key}"></h6>
+	                         <a th:href="@{/getPostsByCategory/}+${post.key}" class="button job_post" data-hover="View Jobs" data-active="I'M ACTIVE"><span th:text="${post.value}"></span></a>
+
+	                    </div>
+	                </div>
+	                
+	  
             <div class="vertical-space-40"></div>
-            <a href="#" class="Brows-All-Category">Brows All Category</a>
+            <a th:href="@{/getPostCountByCategory}" class="Brows-All-Category">Browse All Category</a>
+        </div>
         </div>
         <div class="vertical-space-85"></div>
     </section>
