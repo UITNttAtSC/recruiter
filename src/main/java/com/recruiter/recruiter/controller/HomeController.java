@@ -138,6 +138,7 @@ public class HomeController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("hasNext", jobPosts.hasNext());
         model.addAttribute("hasPrevious", jobPosts.hasPrevious());
+        model.addAttribute("url", "allJobs");
         return "uploaded-post";
     }
 }
