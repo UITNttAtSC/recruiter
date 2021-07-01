@@ -9,34 +9,28 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Jobz-post-job</title>
+<title>Recruiter</title>
 
-<script th:src="@{/js/4n2NXumNjtg5LPp6VXLlDicTUfA.js}"></script>
 <link rel="apple-touch-icon" th:href="@{/images/apple-touch-icon.html}">
 <link rel="shortcut icon" type="image/ico" th:href="@{/images/favicon.html}" />
 
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    
+    <link th:href="@{/font-awesome-4.7.0/css/font-awesome.min.css}" rel="stylesheet" type="text/css">
+    
+    <link th:href="@{/css/matrialize.css}" rel="stylesheet">
+    
+    <link th:href="@{/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
+    
+    <link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}">
+    
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 
-<link th:href="@{/css/matrialize.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/animations.css}">
 
-<link th:href="@{/owlcarousel/assets/owl.carousel.min.css}" rel="stylesheet">
-
-<link rel="stylesheet" type="text/css" th:href="@{/css/jquery-ui.min.css}">
-
-<link rel="stylesheet" th:href="@{/css/all.min.css}">
-
-<link rel="stylesheet" th:href="@{/css/mdb.min.css}">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/custom-radio-button.css}">
 
 <link rel="stylesheet" th:href="@{/css/mycss.css}">
-
- <link rel="stylesheet" th:href="@{/css/animations.css}">
-
- <link rel="stylesheet" th:href="@{/css/custom-radio-button.css}">
- 
 
 </head>
 <body>
@@ -122,8 +116,8 @@
                                         <ul class="dropdown-menu">
                                             <li><a th:href="@{/signup}">Sign Up</a></li>
                                             <li><a th:href="@{/login}">LogIn</a></li>
-                                            <li><a th:href="@{/companyAccount}">My Account</a></li>
-                                            <li><a th:href="@{/payment}">My Payment</a></li>
+                                            <li><a sec:authorize="hasAnyAuthority('ROLE_COMPANY')" th:href="@{/companyAccount}">My Account</a></li>
+                                            <li><a sec:authorize="hasAnyAuthority('ROLE_COMPANY')" th:href="@{/payment}">My Payment</a></li>
                                         </ul>
                                     </li>
 								</ul>
@@ -277,6 +271,7 @@
 
 
 	<div th:fragment="common-script">
+		<script th:src="@{/js/4n2NXumNjtg5LPp6VXLlDicTUfA.js}"></script>
 		<script th:src="@{/js/email-decode.min.js}"></script>
 		<script th:src="@{/js/jquery.min.js}"></script>
 		<script th:src="@{/js/popper.min.js}"></script>
